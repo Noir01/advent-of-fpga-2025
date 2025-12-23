@@ -1,0 +1,17 @@
+opam-version: "2.0"
+maintainer: "Aniruddh Srivastava"
+authors: ["Aniruddh Srivastava"]
+homepage: "https://github.com/Noir01/advent-of-fpga-2025"
+bug-reports: "https://github.com/Noir01/advent-of-fpga-2025/issues"
+dev-repo: "git+https://github.com/Noir01/advent-of-fpga-2025.git"
+license: "MIT"
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]
+depends: [
+  "ocaml" {>= "5.1.0"}
+  "dune" {>= "3.17.0"}
+]
+available: arch != "arm32" & arch != "x86_32"
+synopsis: "Repo for my attempt for Advent of FPGA 2025"
+description: ""
