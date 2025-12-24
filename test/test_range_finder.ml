@@ -2,11 +2,11 @@ open! Core
 open! Hardcaml
 open! Hardcaml_waveterm
 open! Hardcaml_test_harness
-module Range_finder = Hardcaml_demo_project.Range_finder
+module Range_finder = Advent_of_fpga_2025.Day01
 module Harness = Cyclesim_harness.Make (Range_finder.I) (Range_finder.O)
 
 let ( <--. ) = Bits.( <--. )
-let sample_input_values = [ 16; 67; 150; 4 ]
+let sample_input_values = [ 10; 20; 100; 5 ]
 
 let simple_testbench (sim : Harness.Sim.t) =
   let inputs = Cyclesim.inputs sim in
@@ -62,7 +62,7 @@ let waves_config = Waves_config.no_waves
 
 let%expect_test "Simple test, optionally saving waveforms to disk" =
   Harness.run_advanced ~waves_config ~create:Range_finder.hierarchical simple_testbench;
-  [%expect {| (Result (range 146)) |}]
+  [%expect {| (Result (range 95)) |}]
 ;;
 
 let%expect_test "Simple test with printing waveforms directly" =
@@ -92,14 +92,14 @@ let%expect_test "Simple test with printing waveforms directly" =
     simple_testbench;
   [%expect
     {|
-    (Result (range 146))
+    (Result (range 95))
     ┌Signals─────────────────────┐┌Waves───────────────────────────────────────────────────────┐
     │range_finder$i$clear        ││────┐                                                       │
     │                            ││    └───────────────────────────────────────────────────────│
     │range_finder$i$clock        ││┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐ │
     │                            ││  └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─┘ └─│
     │                            ││────────────┬───────┬───────┬───────┬───────────────────────│
-    │range_finder$i$data_in      ││ 0          │16     │67     │150    │4                      │
+    │range_finder$i$data_in      ││ 0          │10     │20     │100    │5                      │
     │                            ││────────────┴───────┴───────┴───────┴───────────────────────│
     │range_finder$i$data_in_valid││            ┌───┐   ┌───┐   ┌───┐   ┌───┐                   │
     │                            ││────────────┘   └───┘   └───┘   └───┘   └───────────────────│
@@ -108,15 +108,15 @@ let%expect_test "Simple test with printing waveforms directly" =
     │range_finder$i$start        ││        ┌───┐                                               │
     │                            ││────────┘   └───────────────────────────────────────────────│
     │                            ││────────────────┬───────┬───────┬───────────────────────────│
-    │range_finder$max            ││ 0              │16     │67     │150                        │
+    │range_finder$max            ││ 0              │10     │20     │100                        │
     │                            ││────────────────┴───────┴───────┴───────────────────────────│
     │                            ││────────────┬───┬───────────────────────┬───────────────────│
-    │range_finder$min            ││ 0          │65.│16                     │4                  │
+    │range_finder$min            ││ 0          │65.│10                     │5                  │
     │                            ││────────────┴───┴───────────────────────┴───────────────────│
     │range_finder$o$range$valid  ││                                                ┌───────────│
     │                            ││────────────────────────────────────────────────┘           │
     │                            ││────────────────────────────────────────────────┬───────────│
-    │range_finder$o$range$value  ││ 0                                              │146        │
+    │range_finder$o$range$value  ││ 0                                              │95         │
     │                            ││────────────────────────────────────────────────┴───────────│
     └────────────────────────────┘└────────────────────────────────────────────────────────────┘
     |}]
