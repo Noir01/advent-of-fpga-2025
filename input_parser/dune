@@ -1,0 +1,6 @@
+(library
+ (name advent_of_fpga_2025_input_parser)
+ (libraries core re)
+ (inline_tests)
+ (preprocess
+  (pps ppx_jane)))
