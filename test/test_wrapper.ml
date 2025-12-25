@@ -1,7 +1,5 @@
-(** Test wrapper for UART-based simulation.
-
-    Provides helpers for feeding bytes through the UART interface
-    and capturing the output. *)
+(** This file was LLM generated, I may try to
+rewrite this towards the end of the challenge. *)
 
 open! Core
 open! Hardcaml
