@@ -1,6 +1,6 @@
 (executables
  (modes byte exe)
- (names generate)
+ (names generate run_day01)
  (libraries core.command core_unix.command_unix core core_unix hardcaml
    advent_of_fpga_2025 jane_rope)
  (preprocess
