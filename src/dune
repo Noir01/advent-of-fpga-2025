@@ -1,5 +1,7 @@
+(include_subdirs unqualified)
+
 (library
- (name hardcaml_demo_project)
+ (name advent_of_fpga_2025)
  (libraries core hardcaml)
  (preprocess
   (pps ppx_hardcaml ppx_jane)))
