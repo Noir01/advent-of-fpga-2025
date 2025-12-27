@@ -3,7 +3,7 @@ open! Hardcaml
 open! Signal
 
 let data_width = 16
-let addr_bits = 14
+let addr_bits = 13
 let result_width = 64
 
 module Interfaces = Solver_intf.Make_interfaces (struct
@@ -38,7 +38,7 @@ let create scope (i : _ I.t) : _ O.t =
   (* Direction for current movement: 0=Right, 1=Left *)
   let%hw_var direction = Variable.reg spec ~width:1 in
   (* Remaining ticks in current movement *)
-  let%hw_var tick_counter = Variable.reg spec ~width:15 in
+  let%hw_var tick_counter = Variable.reg spec ~width:10 in
   (* Part 1: count of movements ending at position 0 *)
   let%hw_var part1_count = Variable.reg spec ~width:32 in
   (* Part 2: count of ticks where position becomes 0 *)
@@ -71,9 +71,9 @@ let create scope (i : _ I.t) : _ O.t =
             ] )
         ; ( Wait_ram
           , [ (* RAM has 1 cycle latency, data should be valid *)
-              (* Decode: bit 15 = direction, bits 14:0 = distance *)
+              (* Decode: bit 10 = direction, bits 14:0 = distance *)
               direction <-- sel_top ~width:1 i.ram_read_data
-            ; tick_counter <-- sel_bottom ~width:15 i.ram_read_data
+            ; tick_counter <-- sel_bottom ~width:10 i.ram_read_data
             ; sm.set_next Ticking
             ] )
         ; ( Ticking
