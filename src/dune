@@ -2,6 +2,6 @@
 
 (library
  (name advent_of_fpga_2025)
- (libraries core hardcaml)
+ (libraries core hardcaml hardcaml_circuits)
  (preprocess
   (pps ppx_hardcaml ppx_jane)))
