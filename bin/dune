@@ -1,6 +1,6 @@
 (executables
  (modes exe)
- (names generate run_day01)
+ (names generate run_day01 run_day02)
  (libraries
   core.command
   core_unix.command_unix
@@ -8,6 +8,7 @@
   core_unix
   hardcaml
   advent_of_fpga_2025
+  advent_of_fpga_2025_input_parser
   jane_rope)
  (preprocess
   (pps ppx_jane))
