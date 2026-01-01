@@ -66,5 +66,5 @@ let%expect_test "Sample test" =
      ; 2121212118L
      ; 2121212124L
     |];
-  [%expect {| (Results (part1 1227775554) (part2 4174379265) (!cycles_run 3244)) |}]
+  [%expect {| (Results (part1 1227775554) (part2 4174379265) (!cycles_run 1304)) |}]
 ;;
