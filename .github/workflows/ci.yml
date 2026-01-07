@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libffi-dev libgmp-dev pkg-config
+
       - name: Set up OCaml
         uses: ocaml/setup-ocaml@v3
         with:
@@ -19,11 +24,10 @@ jobs:
           opam-repositories: |
             ox: https://github.com/oxcaml/opam-repository.git
             default: https://opam.ocaml.org
-
-          cache-key: ${{ runner.os }}-ocaml-${{ hashFiles('**/*.opam') }}
+          dune-cache: true
 
       - name: Install dependencies
-        run: opam install . --deps-only --with-test -j 2 -v
+        run: opam install . --deps-only --with-test -j 1
 
       - name: Run tests
-        run: opam exec -- dune runtest --profile=release
+        run: opam exec -- dune runtest
