@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ocaml-variants.5.2.0+ox
+          opam-repositories: |
+            ox: https://github.com/oxcaml/opam-repository.git
+            default: https://opam.ocaml.org
+
+          cache-key: ${{ runner.os }}-ocaml-${{ hashFiles('**/*.opam') }}
+
+      - name: Install dependencies
+        run: opam install . --deps-only --with-test -j 2 -v
+
+      - name: Run tests
+        run: opam exec -- dune runtest --profile=release

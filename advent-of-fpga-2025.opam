@@ -11,6 +11,15 @@ build: [
 depends: [
   "ocaml" {>= "5.1.0"}
   "dune" {>= "3.17.0"}
+  "core"
+  "core_unix"
+  "hardcaml"
+  "hardcaml_circuits"
+  "jane_rope"
+  "ppx_hardcaml"
+  "ppx_jane"
+  "re"
+  "hardcaml_test_harness" {with-test}
 ]
 available: arch != "arm32" & arch != "x86_32"
 synopsis: "Repo for my attempt for Advent of FPGA 2025"

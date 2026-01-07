@@ -1,0 +1,828 @@
+Run opam install . --deps-only --with-test
+  opam install . --deps-only --with-test
+  shell: /usr/bin/bash -e {0}
+  env:
+    OPAMCOLOR: always
+    OPAMCONFIRMLEVEL: unsafe-yes
+    OPAMDOWNLOADJOBS: 4
+    OPAMERRLOGLEN: 0
+    OPAMEXTERNALSOLVER: builtin-0install
+    OPAMPRECISETRACKING: 1
+    OPAMRETRIES: 10
+    OPAMROOT: /home/runner/.opam
+    OPAMSOLVERTIMEOUT: 600
+    OPAMYES: 1
+    CLICOLOR_FORCE: 1
+  
+The following actions will be performed:
+=== install 137 packages
+  ∗ astring                     0.8.5                    [required by odoc-parser]
+  ∗ async                       v0.18~preview.130.76+222 [required by hardcaml_waveterm]
+  ∗ async_kernel                v0.18~preview.130.76+222 [required by async]
+  ∗ async_log                   v0.18~preview.130.76+222 [required by async]
+  ∗ async_rpc_kernel            v0.18~preview.130.76+222 [required by async]
+  ∗ async_unix                  v0.18~preview.130.76+222 [required by async]
+  ∗ base                        v0.18~preview.130.76+222 [required by hardcaml, core, core_unix, hardcaml_circuits]
+  ∗ base_bigstring              v0.18~preview.130.76+222 [required by core]
+  ∗ base_quickcheck             v0.18~preview.130.76+222 [required by core]
+  ∗ basement                    v0.18~preview.130.76+222 [required by base, string_dict]
+  ∗ bignum                      v0.18~preview.130.76+222 [required by hardcaml, hardcaml_circuits]
+  ∗ bin_prot                    v0.18~preview.130.76+222 [required by core, hardcaml]
+  ∗ camlp-streams               5.0.1                    [required by odoc-parser]
+  ∗ capitalization              v0.18~preview.130.76+222 [required by ppx_string_conv]
+  ∗ capsule                     v0.18~preview.130.76+222 [required by core]
+  ∗ capsule0                    v0.18~preview.130.76+222 [required by base]
+  ∗ cmdliner                    1.3.0                    [required by uutf]
+  ∗ conf-gmp                    5                        [required by zarith]
+  ∗ conf-gmp-powm-sec           4                        [required by cryptokit]
+  ∗ conf-pkg-config             4                        [required by conf-zlib]
+  ∗ conf-zlib                   1                        [required by cryptokit]
+  ∗ core                        v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ core_extended               v0.18~preview.130.76+222 [required by async_rpc_kernel]
+  ∗ core_kernel                 v0.18~preview.130.76+222 [required by core_unix, hardcaml]
+  ∗ core_unix                   v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ cppo                        1.8.0                    [required by notty-community]
+  ∗ cryptokit                   1.16.1                   [required by hardcaml_waveterm]
+  ∗ csexp                       1.5.2                    [required by dune-configurator]
+  ∗ cstruct                     6.2.0                    [required by async_unix]
+  ∗ dedent                      v0.18~preview.130.76+222 [required by ppx_rope]
+  ∗ dune                        3.20.2+ox                [required by advent-of-fpga-2025]
+  ∗ dune-configurator           3.20.2                   [required by base]
+  ∗ expect_test_helpers_core    v0.18~preview.130.76+222 [required by core_unix, hardcaml_test_harness]
+  ∗ fieldslib                   v0.18~preview.130.76+222 [required by core]
+  ∗ flexible_sexp               v0.18~preview.130.76+222 [required by async_rpc_kernel]
+  ∗ fmt                         0.10.0                   [required by cstruct]
+  ∗ hardcaml                    v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ hardcaml_circuits           v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ hardcaml_event_driven_sim   v0.18~preview.130.76+222 [required by hardcaml_step_testbench]
+  ∗ hardcaml_fixed_point        v0.18~preview.130.76+222 [required by hardcaml_circuits]
+  ∗ hardcaml_step_testbench     v0.18~preview.130.76+222 [required by hardcaml_test_harness]
+  ∗ hardcaml_test_harness       v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ hardcaml_waveterm           v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ int_repr                    v0.18~preview.130.76+222 [required by base_bigstring, core_kernel]
+  ∗ jane-street-headers         v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ jane_rope                   v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ jst-config                  v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ notty-community             0.2.4+ox                 [required by hardcaml_waveterm]
+  ∗ notty_async                 v0.18~preview.130.76+222 [required by hardcaml_waveterm]
+  ∗ num                         1.6                      [required by bignum]
+  ∗ ocaml-compiler-libs         v0.17.0+ox               [required by ppx_hash]
+  ∗ ocaml_intrinsics_kernel     v0.18~preview.130.76+222 [required by base]
+  ∗ ocamlbuild                  0.15.0+ox                [required by uutf]
+  ∗ ocamlfind                   1.9.8                    [required by zarith]
+  ∗ odoc-parser                 3.1.0+ox                 [required by ppx_js_style]
+  ∗ oxcaml_effect               v0.18~preview.130.76+222 [required by hardcaml_step_testbench]
+  ∗ parsexp                     v0.18~preview.130.76+222 [required by core]
+  ∗ pipe_with_writer_error      v0.18~preview.130.76+222 [required by async_rpc_kernel]
+  ∗ portable                    v0.18~preview.130.76+222 [required by core]
+  ∗ portable_lockfree_htbl      v0.18~preview.130.76+222 [required by notty-community]
+  ∗ ppx_array_base              v0.18~preview.130.76+222 [required by base]
+  ∗ ppx_assert                  v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_base                    v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_bench                   v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_bin_prot                v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_cold                    v0.18~preview.130.76+222 [required by base]
+  ∗ ppx_compare                 v0.18~preview.130.76+222 [required by hardcaml]
+  ∗ ppx_custom_printf           v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_debug_assert            v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_derivers                1.2.1                    [required by ppxlib]
+  ∗ ppx_diff                    v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ ppx_disable_unused_warnings v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_enumerate               v0.18~preview.130.76+222 [required by ppx_diff]
+  ∗ ppx_expect                  v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_fields_conv             v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_fixed_literal           v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_fuelproof               v0.18~preview.130.76+222 [required by ppx_expect]
+  ∗ ppx_globalize               v0.18~preview.130.76+222 [required by ppx_base]
+  ∗ ppx_hardcaml                v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ ppx_hash                    v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_helpers                 v0.18~preview.130.76+222 [required by ppx_array_base]
+  ∗ ppx_here                    v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_ignore_instrumentation  v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_inline_test             v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_int63_literal           v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_jane                    v0.18~preview.130.76+222 [required by advent-of-fpga-2025]
+  ∗ ppx_js_style                v0.18~preview.130.76+222 [required by ppx_portable]
+  ∗ ppx_let                     v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_log                     v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_module_timer            v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_optcomp                 v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ ppx_optional                v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_pipebang                v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_portable                v0.18~preview.130.76+222 [required by base_quickcheck]
+  ∗ ppx_rope                    v0.18~preview.130.76+222 [required by hardcaml]
+  ∗ ppx_sexp_conv               v0.18~preview.130.76+222 [required by core, hardcaml]
+  ∗ ppx_sexp_message            v0.18~preview.130.76+222 [required by core]
+  ∗ ppx_sexp_value              v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_shorthand               v0.18~preview.130.76+222 [required by ppx_base]
+  ∗ ppx_stable                  v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_stable_witness          v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ ppx_string                  v0.18~preview.130.76+222 [required by ppx_rope]
+  ∗ ppx_string_conv             v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_template                v0.18~preview.130.76+222 [required by capsule0, ppx_base]
+  ∗ ppx_tydi                    v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_typed_fields            v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_typerep_conv            v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_var_name                v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppx_variants_conv           v0.18~preview.130.76+222 [required by ppx_jane]
+  ∗ ppxlib                      0.33.0+ox                [required by hardcaml]
+  ∗ ppxlib_ast                  0.33.0+ox                [required by ppxlib]
+  ∗ ppxlib_jane                 v0.18~preview.130.76+222 [required by base, ppx_diff]
+  ∗ protocol_version_header     v0.18~preview.130.76+222 [required by async_rpc_kernel]
+  ∗ re                          1.14.0+ox                [required by advent-of-fpga-2025]
+  ∗ record_builder              v0.18~preview.130.76+222 [required by core_extended]
+  ∗ result                      1.5                      [required by odoc-parser]
+  ∗ seq                         base                     [required by re]
+  ∗ sexp_pretty                 v0.18~preview.130.76+222 [required by expect_test_helpers_core]
+  ∗ sexp_type                   v0.18~preview.130.76+222 [required by sexplib0]
+  ∗ sexplib                     v0.18~preview.130.76+222 [required by core_unix, core, hardcaml]
+  ∗ sexplib0                    v0.18~preview.130.76+222 [required by base]
+  ∗ spawn                       v0.15.1+ox               [required by core_unix]
+  ∗ splittable_random           v0.18~preview.130.76+222 [required by core, hardcaml]
+  ∗ stdio                       v0.18~preview.130.76+222 [required by hardcaml, core, hardcaml_circuits]
+  ∗ stdlib-shims                0.3.0                    [required by ppxlib]
+  ∗ string_dict                 v0.18~preview.130.76+222 [required by core]
+  ∗ textutils                   v0.18~preview.130.76+222 [required by async]
+  ∗ time_now                    v0.18~preview.130.76+222 [required by core]
+  ∗ topkg                       1.0.8+ox                 [required by uutf]
+  ∗ typerep                     v0.18~preview.130.76+222 [required by core]
+  ∗ unique                      v0.18~preview.130.76+222 [required by hardcaml_step_testbench]
+  ∗ univ_map                    v0.18~preview.130.76+222 [required by core]
+  ∗ uopt                        v0.18~preview.130.76+222 [required by core, core_unix]
+  ∗ uutf                        1.0.3+ox                 [required by textutils, notty-community]
+  ∗ variantslib                 v0.18~preview.130.76+222 [required by core]
+  ∗ zarith                      1.12+ox                  [required by bignum]
+  ∗ zarith_stubs_js             v0.18~preview.130.76+222 [required by bignum]
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+⬇ retrieved async_kernel.v0.18~preview.130.76+222  (https://github.com/janestreet/async_kernel/archive/cfc42ef76ccef008cca3b198e4d2c10c02281e24.tar.gz)
+⬇ retrieved async.v0.18~preview.130.76+222  (https://github.com/janestreet/async/archive/f3a402d596ea5e236b30caaae4e070fc2d0e1d20.tar.gz)
+⬇ retrieved async_log.v0.18~preview.130.76+222  (https://github.com/janestreet/async_log/archive/9eb7b7894ffe8efb4065d73a2d403440fcef878f.tar.gz)
+⬇ retrieved astring.0.8.5  (https://opam.ocaml.org/cache)
+⬇ retrieved async_rpc_kernel.v0.18~preview.130.76+222  (https://github.com/janestreet/async_rpc_kernel/archive/16bf063353a5a8dcc594936425b9cda14200bf28.tar.gz)
+⬇ retrieved base_bigstring.v0.18~preview.130.76+222  (https://github.com/janestreet/base_bigstring/archive/80b25407f646ffc9a46a8477d09abeff63ba4859.tar.gz)
+⬇ retrieved async_unix.v0.18~preview.130.76+222  (https://github.com/janestreet/async_unix/archive/946357f1578d0e58952473f8b7d6f0dab1f1c388.tar.gz)
+⬇ retrieved base_quickcheck.v0.18~preview.130.76+222  (https://github.com/janestreet/base_quickcheck/archive/901bb608ea050af3c74cc65a65a08ae96dd24cae.tar.gz)
+⬇ retrieved base.v0.18~preview.130.76+222  (https://github.com/janestreet/base/archive/52a6c24f130161941b4454c278ecb90e1d293c4e.tar.gz)
+⬇ retrieved basement.v0.18~preview.130.76+222  (https://github.com/janestreet/basement/archive/c657898128a97dcdfbe4b25d79fd0de2e1e5218f.tar.gz)
+⬇ retrieved bignum.v0.18~preview.130.76+222  (https://github.com/janestreet/bignum/archive/8ac6aaed1cc822b4156d1e34aacfb0a24323b0d3.tar.gz)
+⬇ retrieved capitalization.v0.18~preview.130.76+222  (https://github.com/janestreet/capitalization/archive/6feac6c229c9e04a316a23cc012810c0175276a0.tar.gz)
+⬇ retrieved bin_prot.v0.18~preview.130.76+222  (https://github.com/janestreet/bin_prot/archive/0b8bd0d58e2e703feb44acf9e62966dce5095bc5.tar.gz)
+⬇ retrieved capsule.v0.18~preview.130.76+222  (https://github.com/janestreet/capsule/archive/3fea739a7ae30fe4189878909ea7e78154eeb78c.tar.gz)
+⬇ retrieved camlp-streams.5.0.1  (https://opam.ocaml.org/cache)
+⬇ retrieved capsule0.v0.18~preview.130.76+222  (https://github.com/janestreet/capsule0/archive/28a9844cb1ed6f8d719c685ad04d5f20c93b30a1.tar.gz)
+∗ installed conf-pkg-config.4
+∗ installed conf-zlib.1
+⬇ retrieved conf-gmp-powm-sec.4  (https://opam.ocaml.org/cache)
+⬇ retrieved conf-gmp.5  (https://opam.ocaml.org/cache)
+∗ installed conf-gmp.5
+∗ installed conf-gmp-powm-sec.4
+⬇ retrieved cmdliner.1.3.0  (https://opam.ocaml.org/cache)
+⬇ retrieved core_extended.v0.18~preview.130.76+222  (https://github.com/janestreet/core_extended/archive/8b803a4a43216cef1b1200b4ea072fd6308e6322.tar.gz)
+⬇ retrieved core.v0.18~preview.130.76+222  (https://github.com/janestreet/core/archive/bc95d305d8e8a4c0e2cdd3cb5180288f180c2e0f.tar.gz)
+⬇ retrieved core_kernel.v0.18~preview.130.76+222  (https://github.com/janestreet/core_kernel/archive/5f7e3a5f03204465c46db2196fc12c6f501c0136.tar.gz)
+⬇ retrieved core_unix.v0.18~preview.130.76+222  (https://github.com/janestreet/core_unix/archive/63390a3f75376156e77ed49d6cc07ca48a90dd53.tar.gz)
+⬇ retrieved csexp.1.5.2  (https://opam.ocaml.org/cache)
+⬇ retrieved cppo.1.8.0  (https://opam.ocaml.org/cache)
+⬇ retrieved cryptokit.1.16.1  (https://opam.ocaml.org/cache)
+⬇ retrieved expect_test_helpers_core.v0.18~preview.130.76+222  (https://github.com/janestreet/expect_test_helpers_core/archive/75b3eb5859fe8f9af7269466ea65fb4b81c11d86.tar.gz)
+⬇ retrieved cstruct.6.2.0  (https://opam.ocaml.org/cache)
+⬇ retrieved dedent.v0.18~preview.130.76+222  (https://github.com/janestreet/dedent/archive/5c4eee78c6bb98e76bd2c9066a1347d117c81b8b.tar.gz)
+⬇ retrieved fieldslib.v0.18~preview.130.76+222  (https://github.com/janestreet/fieldslib/archive/4713dc70ff453f632d0ad87e957d955e97e3ad68.tar.gz)
+⬇ retrieved flexible_sexp.v0.18~preview.130.76+222  (https://github.com/janestreet/flexible_sexp/archive/6902533606a8bf49ae2ba67017771a6db77c8d03.tar.gz)
+⬇ retrieved fmt.0.10.0  (https://opam.ocaml.org/cache)
+⬇ retrieved dune.3.20.2+ox, dune-configurator.3.20.2  (https://opam.ocaml.org/cache)
+⬇ retrieved hardcaml.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml/archive/ae452d20849b743337a47c56a0c7a675335aff8a.tar.gz)
+⬇ retrieved hardcaml_circuits.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_circuits/archive/bac5e3a0786b62b7c51fe0ea81652660e677929f.tar.gz)
+⬇ retrieved hardcaml_event_driven_sim.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_event_driven_sim/archive/8804ac9dd5bf815be00167e2ee2e009e03980614.tar.gz)
+∗ installed cmdliner.1.3.0
+⬇ retrieved hardcaml_fixed_point.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_fixed_point/archive/f8e77defa6192c937a121628415d0ff24b824740.tar.gz)
+⬇ retrieved hardcaml_test_harness.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_test_harness/archive/03959a25c81ccb640d49bac2005cb680535011b1.tar.gz)
+⬇ retrieved hardcaml_step_testbench.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_step_testbench/archive/6935b0669d5469cfb49b95bbefad2c256448275d.tar.gz)
+⬇ retrieved hardcaml_waveterm.v0.18~preview.130.76+222  (https://github.com/janestreet/hardcaml_waveterm/archive/ceab33ac201817f9703df27d78e612b8ea119d41.tar.gz)
+⬇ retrieved int_repr.v0.18~preview.130.76+222  (https://github.com/janestreet/int_repr/archive/dfd133ac6f87cb6f705d021e7920834ceda90b69.tar.gz)
+⬇ retrieved notty-community.0.2.4+ox  (https://github.com/ocaml-community/notty-community/releases/download/v0.2.4/notty-community-0.2.4.tar.gz)
+⬇ retrieved jane-street-headers.v0.18~preview.130.76+222  (https://github.com/janestreet/jane-street-headers/archive/f1704e9e4a75e87942fa74fe46d86b71953e0bf8.tar.gz)
+⬇ retrieved jst-config.v0.18~preview.130.76+222  (https://github.com/janestreet/jst-config/archive/5d519710f74f3c3ed9f9e5f8ffb7d918b66ee7e3.tar.gz)
+⬇ retrieved jane_rope.v0.18~preview.130.76+222  (https://github.com/janestreet/jane_rope/archive/170d8e00ef32f5b53fdbfa57c26689f4381db5c9.tar.gz)
+⬇ retrieved notty_async.v0.18~preview.130.76+222  (https://github.com/janestreet/notty_async/archive/4d84255f1450b5daa5accba649b9ec6b38e47998.tar.gz)
+⬇ retrieved ocaml-compiler-libs.v0.17.0+ox  (https://github.com/janestreet/ocaml-compiler-libs/archive/refs/tags/v0.17.0.tar.gz)
+⬇ retrieved ocaml_intrinsics_kernel.v0.18~preview.130.76+222  (https://github.com/janestreet/ocaml_intrinsics_kernel/archive/1d595b2a7098e1199826bc1f609d631848990392.tar.gz)
+⬇ retrieved num.1.6  (https://opam.ocaml.org/cache)
+⬇ retrieved ocamlbuild.0.15.0+ox  (https://github.com/ocaml/ocamlbuild/archive/refs/tags/0.15.0.tar.gz)
+⬇ retrieved oxcaml_effect.v0.18~preview.130.76+222  (https://github.com/janestreet/oxcaml_effect/archive/0216e836c8741c1fe9dd174f03c0cb384e8e0918.tar.gz)
+⬇ retrieved ocamlfind.1.9.8  (https://opam.ocaml.org/cache)
+⬇ retrieved parsexp.v0.18~preview.130.76+222  (https://github.com/janestreet/parsexp/archive/d6dd6af5e91035cf27337a65257e86c70455d80a.tar.gz)
+⬇ retrieved pipe_with_writer_error.v0.18~preview.130.76+222  (https://github.com/janestreet/pipe_with_writer_error/archive/432697ed46a74a44fa6c60d2f0fa78eaec179143.tar.gz)
+⬇ retrieved portable.v0.18~preview.130.76+222  (https://github.com/janestreet/portable/archive/b5fef34fc522264981b79c3c3248f73a40fbfb9e.tar.gz)
+⬇ retrieved portable_lockfree_htbl.v0.18~preview.130.76+222  (https://github.com/janestreet/portable_lockfree_htbl/archive/aa74db1949a9dd82f7dae343a4f4a673ef7e196e.tar.gz)
+⬇ retrieved ppx_array_base.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_array_base/archive/e40c1b88ea26195da449a299e653fcebd1cf209f.tar.gz)
+⬇ retrieved ppx_assert.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_assert/archive/b8abb372c99b297194a25ccbb1b30937ac6f1f70.tar.gz)
+⬇ retrieved ppx_base.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_base/archive/37790aa19a1b35c1c9f7bcc2aaeca585032b71b6.tar.gz)
+⬇ retrieved ppx_bench.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_bench/archive/ade060d897a61359aa884dde9e691b709df2cddc.tar.gz)
+⬇ retrieved ppx_cold.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_cold/archive/4ffdf1adc2bfa518584df1aab12618ba8df0a600.tar.gz)
+⬇ retrieved ppx_bin_prot.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_bin_prot/archive/24e83f5fa6f6e561467b3a98cfc8c84727c5a13d.tar.gz)
+⬇ retrieved ppx_compare.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_compare/archive/140b883c0373cdf9739de245dc1dec34d99bfda0.tar.gz)
+⬇ retrieved ppx_debug_assert.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_debug_assert/archive/99db83036000ae4386f745aa4f64823f172a2697.tar.gz)
+⬇ retrieved ppx_custom_printf.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_custom_printf/archive/a71f8b42a24b75fba92ff666f5ace0718403e4b2.tar.gz)
+⬇ retrieved ppx_derivers.1.2.1  (https://opam.ocaml.org/cache)
+∗ installed num.1.6
+⬇ retrieved ppx_diff.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_diff/archive/c2906771fe564e9d48594705558ec16287f5bb78.tar.gz)
+⬇ retrieved ppx_disable_unused_warnings.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_disable_unused_warnings/archive/1159e3d1e624b4b1f2912080e50657d3520e1ff7.tar.gz)
+⬇ retrieved ppx_enumerate.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_enumerate/archive/24e2d4ed38394500f39867517ffb5bcde467eee6.tar.gz)
+⬇ retrieved ppx_fixed_literal.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_fixed_literal/archive/181131270fb1e20fbe0f59695b84cf6919bd161e.tar.gz)
+⬇ retrieved ppx_fields_conv.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_fields_conv/archive/eae8daa286d10651df7b419e0ea4e2815f45a8ef.tar.gz)
+⬇ retrieved ppx_expect.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_expect/archive/24f0e416b7249d150c30e878aa7872f6656ce0df.tar.gz)
+⬇ retrieved ppx_globalize.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_globalize/archive/61320552133d00da27a0919b66c7fe18099d6a68.tar.gz)
+⬇ retrieved ppx_fuelproof.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_fuelproof/archive/dafdc262fd1dc1bfef8588a0013371cd4840d280.tar.gz)
+⬇ retrieved ppx_hardcaml.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_hardcaml/archive/6bacb9f9b1b88fe83309b7fe5646979cfd853b41.tar.gz)
+⬇ retrieved ppx_helpers.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_helpers/archive/bc7461f47af33acfea05ac026fcd4b9e912049ca.tar.gz)
+⬇ retrieved ppx_hash.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_hash/archive/b9e7249ba535ac0f606026f5dbcc36eaa76f5253.tar.gz)
+⬇ retrieved ppx_here.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_here/archive/af1c502efeeae19e51a3011f97de3d534c35247d.tar.gz)
+⬇ retrieved ppx_ignore_instrumentation.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_ignore_instrumentation/archive/49f55a1f068dd4c4dbdba144dc692b610fc6445a.tar.gz)
+⬇ retrieved ppx_inline_test.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_inline_test/archive/3974e947bc02eb1c2cda5db3de29bb245697c2bc.tar.gz)
+⬇ retrieved ppx_int63_literal.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_int63_literal/archive/4de87ca44c65e26e16c9aa7595ff20c4d7ddff18.tar.gz)
+⬇ retrieved ppx_jane.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_jane/archive/d9e98881028ef501d4c4f53c1662cdf62fa357eb.tar.gz)
+⬇ retrieved ppx_js_style.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_js_style/archive/69db81ce8c03b482743ee4dabd0bcefb06db0ee1.tar.gz)
+⬇ retrieved ppx_let.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_let/archive/4ee7a8636838aed6b8112ef2daf5439df45792ff.tar.gz)
+⬇ retrieved ppx_log.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_log/archive/4afb369c828e664de7a166e8ff7060797bd5e908.tar.gz)
+⬇ retrieved ppx_module_timer.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_module_timer/archive/66b5917c61e05d4535b216b8828f0d35e633cdf5.tar.gz)
+⬇ retrieved ppx_optcomp.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_optcomp/archive/4ac68eae07fd0d9cf30d0ae9752796a266fe21c0.tar.gz)
+⬇ retrieved ppx_optional.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_optional/archive/bdb3e33753ad7559bc65e8e204d51316b01d281d.tar.gz)
+⬇ retrieved ppx_pipebang.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_pipebang/archive/782c0a6be69ba7933664ebd3b880232fbf942d44.tar.gz)
+⬇ retrieved ppx_portable.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_portable/archive/6c142bf6bf00a63ee584c3c0ce2fc210a8fe980c.tar.gz)
+⬇ retrieved ppx_rope.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_rope/archive/5ec507b94d0a828dbefb1aa6863931d6153869ef.tar.gz)
+⬇ retrieved odoc-parser.3.1.0+ox  (git+https://github.com/oxcaml/odoc.git#97e1daecb432d33a7137d525f7a554f203073a95)
+⬇ retrieved ppx_sexp_conv.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_sexp_conv/archive/e60e65e42330ae4cc1b705f0cfaaa0175f21a1d4.tar.gz)
+⬇ retrieved ppx_sexp_message.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_sexp_message/archive/1acb9d6fea06a16b93b7384e5e8370225f695267.tar.gz)
+⬇ retrieved ppx_sexp_value.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_sexp_value/archive/426ec1c103a8815f6f0d386e75c21919694e0bc8.tar.gz)
+⬇ retrieved ppx_stable.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_stable/archive/bd8473fe2c5b9a66f2788d42b9f4c8132d6b304b.tar.gz)
+⬇ retrieved ppx_stable_witness.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_stable_witness/archive/37907daf6b804ee39d2e7a7abd18a87e9f461f8c.tar.gz)
+⬇ retrieved ppx_shorthand.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_shorthand/archive/56df5b4a4f3f2eadd88c63cbe9d6c3631a6a32b0.tar.gz)
+⬇ retrieved ppx_string.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_string/archive/d24ea5e3a90ce6c18831d0c06745c57291ce852f.tar.gz)
+⬇ retrieved ppx_tydi.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_tydi/archive/085142941df7de438a86db44ebebc0351136afeb.tar.gz)
+⬇ retrieved ppx_string_conv.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_string_conv/archive/f671e88a398b3f234d2de3d76eea3d8f8a947f12.tar.gz)
+⬇ retrieved ppx_template.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_template/archive/aa546305305afe8bd30e38da29ae60034d6ec7af.tar.gz)
+∗ installed ocamlfind.1.9.8
+⬇ retrieved ppx_typed_fields.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_typed_fields/archive/b88068ae2a1bb6e4e9bef0da2a65c40fc397cb10.tar.gz)
+⬇ retrieved ppx_typerep_conv.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_typerep_conv/archive/b694c0fea0faa4ed8aa0e359e6375a05ceac7a70.tar.gz)
+⬇ retrieved ppx_var_name.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_var_name/archive/0da8fefda39226b7e2fcdd4ec5671dd56b406b6f.tar.gz)
+⬇ retrieved ppx_variants_conv.v0.18~preview.130.76+222  (https://github.com/janestreet/ppx_variants_conv/archive/d53d4c1b0b232a0ac64a9196ff0e5fd353a04058.tar.gz)
+⬇ retrieved protocol_version_header.v0.18~preview.130.76+222  (https://github.com/janestreet/protocol_version_header/archive/e90a870b0e6fd02b1ca87b5bd13e247fdf288092.tar.gz)
+⬇ retrieved ppxlib_jane.v0.18~preview.130.76+222  (https://github.com/janestreet/ppxlib_jane/archive/a097f8757a6a5d8b727720fd22d621850974c66d.tar.gz)
+⬇ retrieved re.1.14.0+ox  (https://github.com/ocaml/ocaml-re/archive/cb63cdf6d355d7eff97c88c0cf90dd567a0faf06.tar.gz)
+⬇ retrieved ppxlib.0.33.0+ox, ppxlib_ast.0.33.0+ox  (https://github.com/ocaml-ppx/ppxlib/archive/1f788de67fd04d7e608376ac26ee57deeeb93fdd.tar.gz)
+⬇ retrieved record_builder.v0.18~preview.130.76+222  (https://github.com/janestreet/record_builder/archive/ca68f39901b5fb8176e313be00655ed46299cddb.tar.gz)
+⬇ retrieved result.1.5  (https://opam.ocaml.org/cache)
+∗ installed ocamlbuild.0.15.0+ox
+⬇ retrieved sexp_pretty.v0.18~preview.130.76+222  (https://github.com/janestreet/sexp_pretty/archive/3c6fd114e048599916bd5d67cf6a215cd0d4cee7.tar.gz)
+⬇ retrieved seq.base  (2 extra sources)
+⬇ retrieved seq.base  (2 extra sources)
+∗ installed seq.base
+⬇ retrieved sexp_type.v0.18~preview.130.76+222  (https://github.com/janestreet/sexp_type/archive/883ee97d5820c0203d764c11fcada300efa330df.tar.gz)
+⬇ retrieved sexplib.v0.18~preview.130.76+222  (https://github.com/janestreet/sexplib/archive/ae31eab5c313cc15889b48bba07f448920bd4f7c.tar.gz)
+⬇ retrieved sexplib0.v0.18~preview.130.76+222  (https://github.com/janestreet/sexplib0/archive/9225b2dc191ac09927422ff749d21f60fd1b14d2.tar.gz)
+⬇ retrieved spawn.v0.15.1+ox  (https://github.com/janestreet/spawn/archive/e24c5102490d51c50f5e77798250d95eb680a5d2.tar.gz)
+⬇ retrieved splittable_random.v0.18~preview.130.76+222  (https://github.com/janestreet/splittable_random/archive/91ad170293e68f71b541e4a3afe011b948389897.tar.gz)
+⬇ retrieved stdio.v0.18~preview.130.76+222  (https://github.com/janestreet/stdio/archive/1e41d740ebde3c09c6cb424fef9395fa0afdcd13.tar.gz)
+⬇ retrieved stdlib-shims.0.3.0  (https://opam.ocaml.org/cache)
+⬇ retrieved textutils.v0.18~preview.130.76+222  (https://github.com/janestreet/textutils/archive/ce2dbfd0cacd36655dc1aa9f7c14c746d8ec69bb.tar.gz)
+⬇ retrieved string_dict.v0.18~preview.130.76+222  (https://github.com/janestreet/string_dict/archive/31d6ffe84bff1ac68f4ead07166201102b474eb6.tar.gz)
+⬇ retrieved time_now.v0.18~preview.130.76+222  (https://github.com/janestreet/time_now/archive/54bc5e246deee6853bbba8aa80157dac1b108fb4.tar.gz)
+⬇ retrieved typerep.v0.18~preview.130.76+222  (https://github.com/janestreet/typerep/archive/92eb8e56eb2e2f80b5cb2c2b312941d9bcb16c71.tar.gz)
+⬇ retrieved unique.v0.18~preview.130.76+222  (https://github.com/janestreet/unique/archive/74aa3b9b3c404819e5e4f9aba2b63679464f20eb.tar.gz)
+⬇ retrieved univ_map.v0.18~preview.130.76+222  (https://github.com/janestreet/univ_map/archive/b7ae0ac2bf569b214db557ad8b16c8d739ac66a0.tar.gz)
+⬇ retrieved uopt.v0.18~preview.130.76+222  (https://github.com/janestreet/uopt/archive/5996c5b1e50a37f8163c45254bb381f86cf94e2f.tar.gz)
+⬇ retrieved topkg.1.0.8+ox  (https://erratique.ch/software/topkg/releases/topkg-1.0.8.tbz)
+⬇ retrieved uutf.1.0.3+ox  (https://erratique.ch/software/uutf/releases/uutf-1.0.3.tbz)
+⬇ retrieved variantslib.v0.18~preview.130.76+222  (https://github.com/janestreet/variantslib/archive/211184518f02e48a5998e5282f75f448fc5519c8.tar.gz)
+⬇ retrieved zarith.1.12+ox  (https://github.com/ocaml/Zarith/archive/release-1.12.tar.gz)
+⬇ retrieved zarith_stubs_js.v0.18~preview.130.76+222  (https://github.com/janestreet/zarith_stubs_js/archive/9d0e5c347a5d13d1e2c2e78830be77b6a3b41e1c.tar.gz)
+[ERROR] The compilation of zarith.1.12+ox failed at "make".
+∗ installed topkg.1.0.8+ox
+∗ installed fmt.0.10.0
+∗ installed astring.0.8.5
+[ERROR] The compilation of uutf.1.0.3+ox failed at "ocaml pkg/pkg.ml build --dev-pkg false --with-cmdliner true".
+∗ installed dune.3.20.2+ox
+∗ installed camlp-streams.5.0.1
+[ERROR] The compilation of basement.v0.18~preview.130.76+222 failed at "dune build -p basement -j 3".
+∗ installed csexp.1.5.2
+∗ installed jane-street-headers.v0.18~preview.130.76+222
+∗ installed cppo.1.8.0
+∗ installed cstruct.6.2.0
+[ERROR] The compilation of ocaml-compiler-libs.v0.17.0+ox failed at "dune build -p ocaml-compiler-libs -j 3".
+[ERROR] The compilation of ocaml_intrinsics_kernel.v0.18~preview.130.76+222 failed at "dune build -p ocaml_intrinsics_kernel -j 3".
+∗ installed ppx_derivers.1.2.1
+∗ installed result.1.5
+[ERROR] The compilation of re.1.14.0+ox failed at "dune build -p re -j 3 @install".
+[ERROR] The compilation of spawn.v0.15.1+ox failed at "dune build -p spawn -j 3 @install".
+∗ installed stdlib-shims.0.3.0
+∗ installed zarith_stubs_js.v0.18~preview.130.76+222
+∗ installed dune-configurator.3.20.2
+∗ installed odoc-parser.3.1.0+ox
+#=== ERROR while compiling zarith.1.12+ox =====================================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/zarith.1.12+ox
+# command     /usr/bin/make
+# exit-code   2
+# env-file    ~/.opam/log/zarith-12762-2cda5e.env
+# output-file ~/.opam/log/zarith-12762-2cda5e.out
+### output ###
+# (echo "let"; grep "version" META | head -1) > zarith_version.ml
+# ocamldep -native  zarith_version.ml z.ml q.ml big_int_Z.ml z.mli q.mli big_int_Z.mli > depend
+# File "z.ml", line 19, characters 7-8:
+# 19 | type t : immutable_data
+#             ^
+# Error: Syntax error
+# 
+# File "q.ml", line 20, characters 12-15:
+# 20 |     global_ num: Z.t; (** Numerator. *)
+#                  ^^^
+# Error: Syntax error
+# 
+# File "z.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# 
+# File "q.mli", line 1, characters 0-2:
+# 1 | @@portable
+#     ^^
+# Error: Syntax error
+# project.mak:150: depend: No such file or directory
+# make: *** [project.mak:148: depend] Error 2
+#=== ERROR while compiling uutf.1.0.3+ox ======================================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/uutf.1.0.3+ox
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocaml pkg/pkg.ml build --dev-pkg false --with-cmdliner true
+# exit-code   1
+# env-file    ~/.opam/log/uutf-12762-7b90ca.env
+# output-file ~/.opam/log/uutf-12762-7b90ca.out
+### output ###
+# + ocamlfind ocamldep -modules src/uutf.ml > src/uutf.ml.depends
+# + ocamlfind ocamldep -modules src/uutf.ml > src/uutf.ml.depends
+# File "src/uutf.ml", line 7, characters 38-39:
+# 7 | external magic_uncontended : 'a array @ contended -> 'a array @@ portable = "%identity"
+#                                           ^
+# Error: Syntax error
+# Command exited with code 2.
+Error: pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-j' '4' '-tag' 'debug'
+#      '-build-dir' '_build' 'opam' 'pkg/META' 'CHANGES.md' 'LICENSE.md'
+#      'README.md' 'src/uutf.a' 'src/uutf.cmxs' 'src/uutf.cmxa' 'src/uutf.cma'
+#      'src/uutf.cmx' 'src/uutf.cmi' 'src/uutf.mli' 'test/utftrip.native']: exited with 10
+#=== ERROR while compiling spawn.v0.15.1+ox ===================================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/spawn.v0.15.1+ox
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/dune build -p spawn -j 3 @install
+# exit-code   1
+# env-file    ~/.opam/log/spawn-12762-346308.env
+# output-file ~/.opam/log/spawn-12762-346308.out
+### output ###
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamlc.opt -w -40 -g -bin-annot -bin-annot-occurrences -I src/.spawn.objs/byte -I /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/lib/ocaml/threads -I /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/lib/ocaml/unix -no-alias-deps -o src/.spawn.objs/byte/spawn.cmi -c -intf src/spawn.mli)
+# File "src/spawn.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+#=== ERROR while compiling re.1.14.0+ox =======================================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/re.1.14.0+ox
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/dune build -p re -j 3 @install
+# exit-code   1
+# env-file    ~/.opam/log/re-12762-3fb0dc.env
+# output-file ~/.opam/log/re-12762-3fb0dc.out
+### output ###
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/ast.mli) > _build/default/lib/.re.objs/re__Ast.intf.d
+# File "lib/ast.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/ast.ml) > _build/default/lib/.re.objs/re__Ast.impl.d
+# File "lib/ast.ml", line 3, characters 17-18:
+# 3 | type ('a, _) ast : immutable_data with 'a =
+#                      ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/automata.mli) > _build/default/lib/.re.objs/re__Automata.intf.d
+# File "lib/automata.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/automata.ml) > _build/default/lib/.re.objs/re__Automata.impl.d
+# File "lib/automata.ml", line 27, characters 17-19:
+# 27 | module Ids : sig @@ portable
+#                       ^^
+# Error: Syntax error: "end" expected
+# File "lib/automata.ml", line 27, characters 13-16:
+# 27 | module Ids : sig @@ portable
+#                   ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/bit_vector.mli) > _build/default/lib/.re.objs/re__Bit_vector.intf.d
+# File "lib/bit_vector.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/category.mli) > _build/default/lib/.re.objs/re__Category.intf.d
+# File "lib/category.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/color_map.mli) > _build/default/lib/.re.objs/re__Color_map.intf.d
+# File "lib/color_map.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/compile.mli) > _build/default/lib/.re.objs/re__Compile.intf.d
+# File "lib/compile.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/core.mli) > _build/default/lib/.re.objs/re__Core.intf.d
+# File "lib/core.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/compile.ml) > _build/default/lib/.re.objs/re__Compile.impl.d
+# File "lib/compile.ml", line 5, characters 17-19:
+# 5 | module Idx : sig @@ portable
+#                      ^^
+# Error: Syntax error: "end" expected
+# File "lib/compile.ml", line 5, characters 13-16:
+# 5 | module Idx : sig @@ portable
+#                  ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/cset.mli) > _build/default/lib/.re.objs/re__Cset.intf.d
+# File "lib/cset.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/dense_map.mli) > _build/default/lib/.re.objs/re__Dense_map.intf.d
+# File "lib/dense_map.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/dense_map.ml) > _build/default/lib/.re.objs/re__Dense_map.impl.d
+# File "lib/dense_map.ml", line 3, characters 15-16:
+# 3 | let make : ('a : value mod contended portable). size:int -> f:(int -> 'a) -> (int -> 'a) @ portable =
+#                    ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/emacs.mli) > _build/default/lib/.re.objs/re__Emacs.intf.d
+# File "lib/emacs.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/fmt.mli) > _build/default/lib/.re.objs/re__Fmt.intf.d
+# File "lib/fmt.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/glob.mli) > _build/default/lib/.re.objs/re__Glob.intf.d
+# File "lib/glob.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/group.mli) > _build/default/lib/.re.objs/re__Group.intf.d
+# File "lib/group.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/hash_set.mli) > _build/default/lib/.re.objs/re__Hash_set.intf.d
+# File "lib/hash_set.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/iarray.ml) > _build/default/lib/.re.objs/re__Iarray.impl.d
+# File "lib/iarray.ml", line 6, characters 2-4:
+# 6 |   @@ portable
+#       ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/mark_infos.mli) > _build/default/lib/.re.objs/re__Mark_infos.intf.d
+# File "lib/mark_infos.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl lib/import.ml) > _build/default/lib/.re.objs/re__Import.impl.d
+# File "lib/import.ml", line 26, characters 33-35:
+# 26 | external runtime5 : unit -> bool @@ portable = "%runtime5"
+#                                       ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/parse_buffer.mli) > _build/default/lib/.re.objs/re__Parse_buffer.intf.d
+# File "lib/parse_buffer.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/pcre.mli) > _build/default/lib/.re.objs/re__Pcre.intf.d
+# File "lib/pcre.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/perl.mli) > _build/default/lib/.re.objs/re__Perl.intf.d
+# File "lib/perl.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/pmark.mli) > _build/default/lib/.re.objs/re__Pmark.intf.d
+# File "lib/pmark.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/posix.mli) > _build/default/lib/.re.objs/re__Posix.intf.d
+# File "lib/posix.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/posix_class.mli) > _build/default/lib/.re.objs/re__Posix_class.intf.d
+# File "lib/posix_class.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/replace.mli) > _build/default/lib/.re.objs/re__Replace.intf.d
+# File "lib/replace.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/slice.mli) > _build/default/lib/.re.objs/re__Slice.intf.d
+# File "lib/slice.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf lib/view.mli) > _build/default/lib/.re.objs/re__View.intf.d
+# File "lib/view.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+#=== ERROR while compiling ocaml_intrinsics_kernel.v0.18~preview.130.76+222 ===#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/ocaml_intrinsics_kernel.v0.18~preview.130.76+222
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/dune build -p ocaml_intrinsics_kernel -j 3
+# exit-code   1
+# env-file    ~/.opam/log/ocaml_intrinsics_kernel-12762-1298ce.env
+# output-file ~/.opam/log/ocaml_intrinsics_kernel-12762-1298ce.out
+### output ###
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/common.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Common.intf.d
+# File "src/common.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/float.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Float.intf.d
+# File "src/float.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/conditional.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Conditional.impl.d
+# File "src/conditional.ml", line 5, characters 8-9:
+# 5 |   : ('a : value_or_null).
+#             ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/float.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Float.impl.d
+# File "src/float.ml", line 5, characters 2-4:
+# 5 |   @@ portable
+#       ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/int.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int.intf.d
+# File "src/int.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/int.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int.impl.d
+# File "src/int.ml", line 16, characters 4-6:
+# 16 |     @@ portable
+#          ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/int32.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int32.intf.d
+# File "src/int32.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/int32.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int32.impl.d
+# File "src/int32.ml", line 10, characters 4-6:
+# 10 |     @@ portable
+#          ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/int64.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int64.intf.d
+# File "src/int64.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/int64.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Int64.impl.d
+# File "src/int64.ml", line 10, characters 4-6:
+# 10 |     @@ portable
+#          ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/naive_ints.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Naive_ints.intf.d
+# File "src/naive_ints.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/naive_ints.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Naive_ints.impl.d
+# File "src/naive_ints.ml", line 1, characters 26-28:
+# 1 | module type Intlike = sig @@ portable
+#                               ^^
+# Error: Syntax error: "end" expected
+# File "src/naive_ints.ml", line 1, characters 22-25:
+# 1 | module type Intlike = sig @@ portable
+#                           ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/nativeint.mli) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Nativeint.intf.d
+# File "src/nativeint.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/nativeint.ml) > _build/default/src/.ocaml_intrinsics_kernel.objs/ocaml_intrinsics_kernel__Nativeint.impl.d
+# File "src/nativeint.ml", line 10, characters 4-6:
+# 10 |     @@ portable
+#          ^^
+# Error: Syntax error
+#=== ERROR while compiling ocaml-compiler-libs.v0.17.0+ox =====================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/ocaml-compiler-libs.v0.17.0+ox
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/dune build -p ocaml-compiler-libs -j 3
+# exit-code   1
+# env-file    ~/.opam/log/ocaml-compiler-libs-12762-297082.env
+# output-file ~/.opam/log/ocaml-compiler-libs-12762-297082.out
+### output ###
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamlopt.opt -w -40 -safe-string -g -I src/read_cma/.read_cma.objs/byte -I src/read_cma/.read_cma.objs/native -I /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/lib/ocaml/compiler-libs -cmi-file src/read_cma/.read_cma.objs/byte/read_cma.cmi -no-alias-deps -o src/read_cma/.read_cma.objs/native/read_cma.cmx -c -impl src/read_cma/read_cma.ml)
+# File "src/read_cma/read_cma.ml", line 3, characters 73-104:
+# 3 | let compunit_name cu = cu.Cmo_format.cu_name |> Compilation_unit.name |> Compilation_unit.Name.to_string
+#                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Error: Unbound module Compilation_unit.Name
+#=== ERROR while compiling basement.v0.18~preview.130.76+222 ==================#
+# context     2.5.0 | linux/x86_64 | ocaml-base-compiler.5.2.0 | git+https://github.com/oxcaml/opam-repository.git
+# path        ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/build/basement.v0.18~preview.130.76+222
+# command     ~/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/dune build -p basement -j 3
+# exit-code   1
+# env-file    ~/.opam/log/basement-12762-b88b4c.env
+# output-file ~/.opam/log/basement-12762-b88b4c.out
+### output ###
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/subatomic_upstream.ml) > _build/default/src/.basement.objs/basement__Subatomic_upstream.impl.d
+# File "src/subatomic_upstream.ml", line 1, characters 9-10:
+# 1 | type ('a : value_or_null) t = { mutable contents : 'a }
+#              ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/atomic_lazy.ml) > _build/default/src/.basement.objs/basement__Atomic_lazy.impl.d
+# File "src/atomic_lazy.ml", line 5, characters 11-12:
+# 5 |   type ('a : value_or_null) inner =
+#                ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/atomic_lazy_intf.ml) > _build/default/src/.basement.objs/basement__Atomic_lazy_intf.impl.d
+# File "src/atomic_lazy_intf.ml", line 18, characters 36-38:
+# 18 | module type S_any_nonportable = sig @@ portable
+#                                          ^^
+# Error: Syntax error: "end" expected
+# File "src/atomic_lazy_intf.ml", line 18, characters 32-35:
+# 18 | module type S_any_nonportable = sig @@ portable
+#                                      ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/blocking_sync.mli) > _build/default/src/.basement.objs/basement__Blocking_sync.intf.d
+# File "src/blocking_sync.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/blocking_sync.ml) > _build/default/src/.basement.objs/basement__Blocking_sync.impl.d
+# File "src/blocking_sync.ml", line 1, characters 30-32:
+# 1 | external yield : unit -> unit @@ portable = "caml_thread_yield"
+#                                   ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/compare_failed_or_set_here.mli) > _build/default/src/.basement.objs/basement__Compare_failed_or_set_here.intf.d
+# File "src/compare_failed_or_set_here.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/dynamic.ml) > _build/default/src/.basement.objs/basement__Dynamic.impl.d
+# File "src/dynamic.ml", line 6, characters 24-25:
+# 6 |   type (-'a, +'b) stack : immediate
+#                             ^
+# Error: Syntax error: "end" expected
+# File "src/dynamic.ml", line 3, characters 33-39:
+# 3 | module Fiber_dynamic : Dynamic = struct
+#                                      ^^^^^^
+#   This "struct" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/dynamic_intf.ml) > _build/default/src/.basement.objs/basement__Dynamic_intf.impl.d
+# File "src/dynamic_intf.ml", line 1, characters 26-28:
+# 1 | module type Dynamic = sig @@ portable
+#                               ^^
+# Error: Syntax error: "end" expected
+# File "src/dynamic_intf.ml", line 1, characters 22-25:
+# 1 | module type Dynamic = sig @@ portable
+#                           ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/non_fiber_dynamic.ml) > _build/default/src/.basement.objs/basement__Non_fiber_dynamic.impl.d
+# File "src/non_fiber_dynamic.ml", line 10, characters 18-20:
+# 10 | module Cell : sig @@ portable
+#                        ^^
+# Error: Syntax error: "end" expected
+# File "src/non_fiber_dynamic.ml", line 10, characters 14-17:
+# 10 | module Cell : sig @@ portable
+#                    ^^^
+#   This "sig" might be unmatched
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/or_null_shim.ml) > _build/default/src/.basement.objs/basement__Or_null_shim.impl.d
+# File "src/or_null_shim.ml", line 1, characters 10-11:
+# 1 | type 'a t : value_or_null = 'a or_null [@@or_null_reexport]
+#               ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/portability_hacks.mli) > _build/default/src/.basement.objs/basement__Portability_hacks.intf.d
+# File "src/portability_hacks.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/portability_hacks.ml) > _build/default/src/.basement.objs/basement__Portability_hacks.impl.d
+# File "src/portability_hacks.ml", line 35, characters 8-9:
+# 35 |   -> 'a @ portable
+#              ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/portable_atomic.mli) > _build/default/src/.basement.objs/basement__Portable_atomic.intf.d
+# File "src/portable_atomic.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/portable_lazy.mli) > _build/default/src/.basement.objs/basement__Portable_lazy.intf.d
+# File "src/portable_lazy.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/portable_atomic.ml) > _build/default/src/.basement.objs/basement__Portable_atomic.impl.d
+# File "src/portable_atomic.ml", line 1, characters 9-10:
+# 1 | type ('a : value_or_null) t =
+#              ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/portable_lazy.ml) > _build/default/src/.basement.objs/basement__Portable_lazy.impl.d
+# File "src/portable_lazy.ml", line 1, characters 9-10:
+# 1 | type ('a : value_or_null) portended = { portended : 'a @@ contended portable } [@@unboxed]
+#              ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/stdlib_iarray_labels.mli) > _build/default/src/.basement.objs/basement__Stdlib_iarray_labels.intf.d
+# File "src/stdlib_iarray_labels.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/stdlib_iarray_labels.ml) > _build/default/src/.basement.objs/basement__Stdlib_iarray_labels.impl.d
+# File "src/stdlib_iarray_labels.ml", line 6, characters 10-11:
+# 6 | type (+'a : any mod separable) t = 'a iarray
+#               ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/stdlib_shim.mli) > _build/default/src/.basement.objs/basement__Stdlib_shim.intf.d
+# File "src/stdlib_shim.mli", line 8, characters 33-35:
+# 8 | external runtime5 : unit -> bool @@ portable = "%runtime5"
+#                                      ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/stdlib_shim.ml) > _build/default/src/.basement.objs/basement__Stdlib_shim.impl.d
+# File "src/stdlib_shim.ml", line 1, characters 33-35:
+# 1 | external runtime5 : unit -> bool @@ portable = "%runtime5"
+#                                      ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/subatomic.mli) > _build/default/src/.basement.objs/basement__Subatomic.intf.d
+# File "src/subatomic.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -impl src/subatomic.ml) > _build/default/src/.basement.objs/basement__Subatomic.impl.d
+# File "src/subatomic.ml", line 1, characters 9-10:
+# 1 | type ('a : value_or_null) t = { mutable contents : 'a }
+#              ^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamldep.opt -modules -intf src/subatomic_upstream.mli) > _build/default/src/.basement.objs/basement__Subatomic_upstream.intf.d
+# File "src/subatomic_upstream.mli", line 1, characters 0-2:
+# 1 | @@ portable
+#     ^^
+# Error: Syntax error
+# (cd _build/default && /home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/bin/ocamlc.opt -w -40 -g -bin-annot -bin-annot-occurrences -I src/.basement.objs/byte -no-alias-deps -open Basement__ -o src/.basement.objs/byte/basement__Or_null_shim.cmi -c -intf src/or_null_shim.mli)
+# File "src/or_null_shim.mli", line 12, characters 15-22:
+# 12 | type 'a t = 'a or_null [@@or_null_reexport]
+#                     ^^^^^^^
+# Error: Unbound type constructor or_null
+<><> Error report <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+┌─ The following actions failed
+│ λ build basement                v0.18~preview.130.76+222
+│ λ build ocaml-compiler-libs     v0.17.0+ox
+│ λ build ocaml_intrinsics_kernel v0.18~preview.130.76+222
+│ λ build re                      1.14.0+ox
+│ λ build spawn                   v0.15.1+ox
+│ λ build uutf                    1.0.3+ox
+│ λ build zarith                  1.12+ox
+└─ 
+┌─ The following changes have been performed (the rest was aborted)
+│ ∗ install astring             0.8.5
+│ ∗ install camlp-streams       5.0.1
+│ ∗ install cmdliner            1.3.0
+│ ∗ install conf-gmp            5
+│ ∗ install conf-gmp-powm-sec   4
+│ ∗ install conf-pkg-config     4
+│ ∗ install conf-zlib           1
+│ ∗ install cppo                1.8.0
+│ ∗ install csexp               1.5.2
+│ ∗ install cstruct             6.2.0
+│ ∗ install dune                3.20.2+ox
+│ ∗ install dune-configurator   3.20.2
+│ ∗ install fmt                 0.10.0
+│ ∗ install jane-street-headers v0.18~preview.130.76+222
+│ ∗ install num                 1.6
+│ ∗ install ocamlbuild          0.15.0+ox
+│ ∗ install ocamlfind           1.9.8
+│ ∗ install odoc-parser         3.1.0+ox
+│ ∗ install ppx_derivers        1.2.1
+│ ∗ install result              1.5
+│ ∗ install seq                 base
+│ ∗ install stdlib-shims        0.3.0
+│ ∗ install topkg               1.0.8+ox
+│ ∗ install zarith_stubs_js     v0.18~preview.130.76+222
+└─ 
+The former state can be restored with:
+    /opt/hostedtoolcache/opam/2.5.0/x86_64/opam switch import "/home/runner/work/advent-of-fpga-2025/advent-of-fpga-2025/_opam/.opam-switch/backup/state-20260107061426.export"
+# To update the current shell environment, run: eval $(opam env)

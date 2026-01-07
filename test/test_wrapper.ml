@@ -3,7 +3,6 @@ rewrite this towards the end of the challenge. *)
 
 open! Core
 open! Hardcaml
-open! Hardcaml_waveterm
 module Top = Advent_of_fpga_2025.Top.Day01_top
 module Sim = Cyclesim.With_interface (Top.I) (Top.O)
 
@@ -16,7 +15,7 @@ type t =
 (** Create a test wrapper for the Day01 Top module.
 
     For fast testing, uses a short clocks_per_bit value. *)
-let create ?waves ?(clocks_per_bit = 8) () =
+let create ?(clocks_per_bit = 8) () =
   let scope = Scope.create ~flatten_design:true ~auto_label_hierarchical_ports:true () in
   let config =
     Cyclesim.Config.(
@@ -33,16 +32,6 @@ let create ?waves ?(clocks_per_bit = 8) () =
   in
   (* For now, use the default Top module - we can parameterize later *)
   let sim = Sim.create ~config (Top.hierarchical scope) in
-  let waves, sim =
-    match waves with
-    | None -> None, sim
-    | Some _ ->
-      let waves, sim = Waveform.create sim in
-      Some waves, sim
-  in
-  Core.at_exit (fun () ->
-    Option.iter waves ~f:(fun waves ->
-      Waveform.Serialize.marshall waves "/tmp/waves.hardcamlwaveform"));
   let i = Cyclesim.inputs sim in
   i.rx := Bits.vdd;
   (* UART idle is high *)
