@@ -374,6 +374,14 @@ let create scope (i : _ I.t) : _ O.t =
   ; part1 = part1_acc.value
   ; part2 = part2_acc.value
   ; done_ = sm.is Done
+  ; debug_state = zero 6
+  ; debug_insert_pos = zero 16
+  ; debug_shift_idx = zero 16
+  ; debug_bram_read = zero data_width
+  ; debug_cmp_val = zero data_width
+  ; debug_write_addr = zero addr_bits
+  ; debug_write_data = zero data_width
+  ; debug_read_addr = zero addr_bits
   }
 ;;
 
