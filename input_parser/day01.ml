@@ -10,7 +10,9 @@ open! Util
 let parse ?(verbose = false) filename =
   let raw = get_input_file filename in
   if verbose then print_endline raw;
-  let lines = String.split_lines raw |> List.filter ~f:(fun s -> not (String.is_empty s)) in
+  let lines =
+    String.split_lines raw |> List.filter ~f:(fun s -> not (String.is_empty s))
+  in
   let values =
     List.map lines ~f:(fun line ->
       let line = String.strip line in

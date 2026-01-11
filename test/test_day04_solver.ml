@@ -11,10 +11,10 @@ let encode_row s =
   let bits =
     String.to_list s
     |> List.map ~f:(fun c ->
-         match c with
-         | '0' -> Bits.gnd
-         | '1' -> Bits.vdd
-         | _ -> failwith (sprintf "Invalid bit char: %c" c))
+      match c with
+      | '0' -> Bits.gnd
+      | '1' -> Bits.vdd
+      | _ -> failwith (sprintf "Invalid bit char: %c" c))
   in
   let encoded = Bits.concat_msb bits in
   Bits.uresize ~width:Day04_solver.data_width encoded
@@ -62,9 +62,7 @@ let run_solver ~width ~height rows =
     while (not (Bits.to_bool !(outputs.done_))) && !cycles_run < max_cycles do
       let addr = Bits.to_int_trunc !(outputs.ram_read_addr) in
       let data =
-        if addr < num_rows
-        then input_data.(addr)
-        else Bits.zero Day04_solver.data_width
+        if addr < num_rows then input_data.(addr) else Bits.zero Day04_solver.data_width
       in
       inputs.ram_read_data := data;
       cycle ();

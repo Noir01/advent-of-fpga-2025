@@ -35,7 +35,6 @@ let run () =
     cycle ();
     Int.incr cycles_run
   done;
-  
   let part1 = Bits.to_int_trunc !(outputs.part1) in
   let part2 = Bits.to_int_trunc !(outputs.part2) in
   printf "Part 1: %d\n" part1;

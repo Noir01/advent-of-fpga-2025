@@ -10,10 +10,10 @@ let encode_row s =
   let bits =
     String.to_list s
     |> List.map ~f:(fun c ->
-         match c with
-         | '0' -> Bits.gnd
-         | '1' -> Bits.vdd
-         | _ -> failwith (sprintf "Invalid bit char: %c" c))
+      match c with
+      | '0' -> Bits.gnd
+      | '1' -> Bits.vdd
+      | _ -> failwith (sprintf "Invalid bit char: %c" c))
   in
   let encoded = Bits.concat_msb bits in
   Bits.uresize ~width:Day04_solver.data_width encoded

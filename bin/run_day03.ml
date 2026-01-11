@@ -4,14 +4,14 @@ module Day03_solver = Advent_of_fpga_2025.Day03_solver
 module Day03_parser = Advent_of_fpga_2025_input_parser.Day03
 module Sim = Cyclesim.With_interface (Day03_solver.I) (Day03_solver.O)
 
-(** Encode a digit string to a 400-bit Bits value.
-    Each digit (1-9) is encoded as 4 bits, concatenated MSB first. *)
+(** Encode a digit string to a 400-bit Bits value. Each digit (1-9) is encoded as 4 bits,
+    concatenated MSB first. *)
 let encode_line s =
   let digit_bits =
     String.to_list s
     |> List.map ~f:(fun c ->
-         let d = Char.get_digit_exn c in
-         Bits.of_int_trunc ~width:4 d)
+      let d = Char.get_digit_exn c in
+      Bits.of_int_trunc ~width:4 d)
   in
   (* Concatenate MSB first, then zero-extend to data_width *)
   let encoded = Bits.concat_msb digit_bits in
@@ -43,7 +43,9 @@ let run () =
   let cycles_run = ref 0 in
   while (not (Bits.to_bool !(outputs.done_))) && !cycles_run < max_cycles do
     let addr = Bits.to_int_trunc !(outputs.ram_read_addr) in
-    let data = if addr < input_count then input_data.(addr) else Bits.zero Day03_solver.data_width in
+    let data =
+      if addr < input_count then input_data.(addr) else Bits.zero Day03_solver.data_width
+    in
     inputs.ram_read_data := data;
     cycle ();
     Int.incr cycles_run

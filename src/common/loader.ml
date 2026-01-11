@@ -1,7 +1,6 @@
 (** Loader: Assembles incoming UART bytes into words and writes to RAM.
 
-    Protocol:
-    [START: 0x01] [COUNT_LO] [COUNT_HI] [DATA bytes...] [END: 0xFF]
+    Protocol: [START: 0x01] [COUNT_LO] [COUNT_HI] [DATA bytes...] [END: 0xFF]
 
     Assembles bytes into data_width-bit words (little-endian). *)
 
@@ -19,8 +18,8 @@ module Make (Cfg : Config.Day_config) = struct
     type 'a t =
       { clock : 'a
       ; clear : 'a
-      ; uart_byte : 'a [@bits 8] 
-      ; uart_valid : 'a 
+      ; uart_byte : 'a [@bits 8]
+      ; uart_valid : 'a
       ; start : 'a (** Reset and prepare for new load *)
       }
     [@@deriving hardcaml]
@@ -93,17 +92,12 @@ module Make (Cfg : Config.Day_config) = struct
           ; ( Wait_start
             , [ when_
                   i.uart_valid
-                  [ when_
-                      (i.uart_byte ==:. start_marker)
-                      [ sm.set_next Read_count_lo ]
-                  ]
+                  [ when_ (i.uart_byte ==:. start_marker) [ sm.set_next Read_count_lo ] ]
               ] )
           ; ( Read_count_lo
             , [ when_
                   i.uart_valid
-                  [ expected_words <-- byte_as_16
-                  ; sm.set_next Read_count_hi
-                  ]
+                  [ expected_words <-- byte_as_16; sm.set_next Read_count_hi ]
               ] )
           ; ( Read_count_hi
             , [ when_
@@ -120,7 +114,7 @@ module Make (Cfg : Config.Day_config) = struct
                       [ sm.set_next Done ]
                       [ current_word <-- new_word
                       ; if_
-                          (byte_index.value ==:. (bytes_per_word - 1))
+                          (byte_index.value ==:. bytes_per_word - 1)
                           [ ram_we <-- vdd
                           ; ram_wdata <-- new_word
                           ; byte_index <--. 0
@@ -132,7 +126,7 @@ module Make (Cfg : Config.Day_config) = struct
                       ]
                   ]
               ] )
-          ; (Done, [])
+          ; Done, []
           ]
       ];
     { O.ram_write_enable = ram_we.value

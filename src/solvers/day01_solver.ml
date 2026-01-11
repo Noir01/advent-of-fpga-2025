@@ -65,9 +65,7 @@ let create scope (i : _ I.t) : _ O.t =
               if_
                 (read_addr.value >=: i.input_count)
                 [ sm.set_next Done ]
-                [ (* Issue RAM read and wait *)
-                  sm.set_next Wait_ram
-                ]
+                [ (* Issue RAM read and wait *) sm.set_next Wait_ram ]
             ] )
         ; ( Wait_ram
           , [ (* RAM has 1 cycle latency, data should be valid *)
@@ -93,7 +91,7 @@ let create scope (i : _ I.t) : _ O.t =
               incr read_addr
             ; sm.set_next Reading
             ] )
-        ; (Done, [])
+        ; Done, []
         ]
     ];
   { O.ram_read_addr = read_addr.value

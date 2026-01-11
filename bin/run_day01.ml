@@ -10,7 +10,9 @@ let encode_input dir dist =
 
 let run () =
   let raw = In_channel.read_all "inputs/day01.txt" in
-  let lines = String.split_lines raw |> List.filter ~f:(fun s -> not (String.is_empty s)) in
+  let lines =
+    String.split_lines raw |> List.filter ~f:(fun s -> not (String.is_empty s))
+  in
   let input_data =
     List.map lines ~f:(fun line ->
       let line = String.strip line in
@@ -48,7 +50,6 @@ let run () =
     cycle ();
     Int.incr cycles_run
   done;
-  
   let part1 = Bits.to_int_trunc !(outputs.part1) in
   let part2 = Bits.to_int_trunc !(outputs.part2) in
   printf "Part 1: %d\n" part1;

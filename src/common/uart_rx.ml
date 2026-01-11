@@ -53,7 +53,7 @@ struct
     (* Sample point is in the middle of each bit *)
     let half_bit = clocks_per_bit / 2 in
     let at_sample_point = bit_counter.value ==:. half_bit in
-    let at_bit_end = bit_counter.value ==:. (clocks_per_bit - 1) in
+    let at_bit_end = bit_counter.value ==:. clocks_per_bit - 1 in
     compile
       [ sm.switch
           [ ( Idle
@@ -70,13 +70,9 @@ struct
                     if_
                       (rx_sync ==:. 0)
                       [ (* Valid start bit, continue *) ]
-                      [ (* False start, go back to idle *)
-                        sm.set_next Idle
-                      ]
+                      [ (* False start, go back to idle *) sm.set_next Idle ]
                   ]
-              ; when_
-                  at_bit_end
-                  [ bit_counter <--. 0; sm.set_next Data_bits ]
+              ; when_ at_bit_end [ bit_counter <--. 0; sm.set_next Data_bits ]
               ] )
           ; ( Data_bits
             , [ bit_counter <-- bit_counter.value +:. 1
@@ -90,9 +86,7 @@ struct
                   [ bit_counter <--. 0
                   ; if_
                       (bit_index.value ==:. 7)
-                      [ (* All 8 bits received *)
-                        sm.set_next Stop_bit
-                      ]
+                      [ (* All 8 bits received *) sm.set_next Stop_bit ]
                       [ bit_index <-- bit_index.value +:. 1 ]
                   ]
               ] )

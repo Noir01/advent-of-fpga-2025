@@ -42,16 +42,17 @@ let create scope (i : _ I.t) : _ O.t =
   let sm = State_machine.create (module States) spec in
   let%hw_var line_idx = Variable.reg spec ~width:addr_bits in
   let%hw_var digit_idx = Variable.reg spec ~width:7 in
-
   let%hw_var line_data = Variable.reg spec ~width:data_width in
   (* Part 1: 2 registers *)
-  let batteries_p1 = Array.init num_batteries_p1 ~f:(fun _ -> Variable.reg spec ~width:4) in
+  let batteries_p1 =
+    Array.init num_batteries_p1 ~f:(fun _ -> Variable.reg spec ~width:4)
+  in
   (* Part 2: 12 registers *)
-  let batteries_p2 = Array.init num_batteries_p2 ~f:(fun _ -> Variable.reg spec ~width:4) in
-
+  let batteries_p2 =
+    Array.init num_batteries_p2 ~f:(fun _ -> Variable.reg spec ~width:4)
+  in
   let%hw_var joltage_idx = Variable.reg spec ~width:4 in
   let%hw_var joltage = Variable.reg spec ~width:48 in
-
   let%hw_var part1_acc = Variable.reg spec ~width:result_width in
   let%hw_var part2_acc = Variable.reg spec ~width:result_width in
   (* extract digit at position from line_data
@@ -59,12 +60,12 @@ let create scope (i : _ I.t) : _ O.t =
      pos_from_right=0 means bits 3:0, pos_from_right=99 means bits 399:396 *)
   let get_digit_from_signal data pos =
     let pos_from_right = of_int_trunc ~width:7 99 -: pos in
-    mux pos_from_right (List.init 100 ~f:(fun i -> select data ~high:((i * 4) + 3) ~low:(i * 4)))
+    mux
+      pos_from_right
+      (List.init 100 ~f:(fun i -> select data ~high:((i * 4) + 3) ~low:(i * 4)))
   in
   let get_digit pos = get_digit_from_signal line_data.value pos in
-
   let current_digit = get_digit digit_idx.value in
-
   let compute_new_batteries ~batteries_vals ~incoming =
     let num_batteries = Array.length batteries_vals in
     (* inserted[k] = whether to insert/swap at position k *)
@@ -72,29 +73,24 @@ let create scope (i : _ I.t) : _ O.t =
       Array.init num_batteries ~f:(fun k ->
         if k = 0
         then incoming >=: batteries_vals.(0)
-        else
+        else (
           (* inserted[k] = inserted[k-1] AND batteries[k-1] >= batteries[k] *)
           let initial_insert = incoming >=: batteries_vals.(0) in
           let ripple_ok =
             Array.foldi batteries_vals ~init:vdd ~f:(fun m acc bat ->
-              if m > 0 && m <= k
-              then acc &: (batteries_vals.(m - 1) >=: bat)
-              else acc)
+              if m > 0 && m <= k then acc &: (batteries_vals.(m - 1) >=: bat) else acc)
           in
-          initial_insert &: ripple_ok)
+          initial_insert &: ripple_ok))
     in
-
     Array.init num_batteries ~f:(fun k ->
       if k = 0
       then mux2 inserted.(0) incoming batteries_vals.(0)
       else mux2 inserted.(k) batteries_vals.(k - 1) batteries_vals.(k))
   in
-
   let batteries_p1_vals = Array.map batteries_p1 ~f:(fun b -> b.value) in
   let new_batteries_p1 =
     compute_new_batteries ~batteries_vals:batteries_p1_vals ~incoming:current_digit
   in
-
   let batteries_p2_vals = Array.map batteries_p2 ~f:(fun b -> b.value) in
   let new_batteries_p2 =
     compute_new_batteries ~batteries_vals:batteries_p2_vals ~incoming:current_digit
@@ -130,12 +126,8 @@ let create scope (i : _ I.t) : _ O.t =
             ; part2_acc <--. 0
             ; when_ i.start [ sm.set_next Load_line ]
             ] )
-        ; ( Load_line
-          , [ sm.set_next Wait_line ] )
-        ; ( Wait_line
-          , [ line_data <-- i.ram_read_data
-            ; sm.set_next Init_batteries
-            ] )
+        ; Load_line, [ sm.set_next Wait_line ]
+        ; Wait_line, [ line_data <-- i.ram_read_data; sm.set_next Init_batteries ]
         ; ( Init_batteries
           , [ (* initialize Part 1 batteries with digits 98-99 (rightmost 2) *)
               proc
@@ -170,7 +162,8 @@ let create scope (i : _ I.t) : _ O.t =
                 (digit_idx.value <=:. start_digit_idx_p2)
                 [ proc
                     (Array.to_list
-                       (Array.mapi batteries_p2 ~f:(fun j bat -> bat <-- new_batteries_p2.(j))))
+                       (Array.mapi batteries_p2 ~f:(fun j bat ->
+                          bat <-- new_batteries_p2.(j))))
                 ]
             ; sm.set_next Check_digit_done
             ] )
@@ -189,7 +182,7 @@ let create scope (i : _ I.t) : _ O.t =
         ; ( Joltage_p2_loop
           , [ joltage <-- next_joltage
             ; if_
-                (joltage_idx.value ==:. (num_batteries_p2 - 1))
+                (joltage_idx.value ==:. num_batteries_p2 - 1)
                 [ sm.set_next Accumulate ]
                 [ joltage_idx <-- joltage_idx.value +:. 1 ]
             ] )
@@ -204,7 +197,7 @@ let create scope (i : _ I.t) : _ O.t =
                 [ sm.set_next Done ]
                 [ sm.set_next Load_line ]
             ] )
-        ; (Done, [])
+        ; Done, []
         ]
     ];
   { O.ram_read_addr = uresize line_idx.value ~width:addr_bits

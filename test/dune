@@ -1,7 +1,13 @@
 (library
  (name advent_of_fpga_2025_test)
- (libraries core core_unix hardcaml advent_of_fpga_2025 advent_of_fpga_2025_input_parser
-   hardcaml_test_harness re)
+ (libraries
+  core
+  core_unix
+  hardcaml
+  advent_of_fpga_2025
+  advent_of_fpga_2025_input_parser
+  hardcaml_test_harness
+  re)
  (preprocess
   (pps ppx_hardcaml ppx_jane))
  (inline_tests))

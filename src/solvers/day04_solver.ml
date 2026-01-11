@@ -38,7 +38,6 @@ let create scope (i : _ I.t) : _ O.t =
   (* Grid dimensions (with border) - packed in input_count: high 8 bits = width, low 8 bits = height *)
   let%hw_var grid_width = Variable.reg spec ~width:8 in
   let%hw_var grid_height = Variable.reg spec ~width:8 in
-
   let%hw_var row_idx = Variable.reg spec ~width:8 in
   let%hw_var col_idx = Variable.reg spec ~width:8 in
   let%hw_var load_row_idx = Variable.reg spec ~width:8 in
@@ -46,7 +45,6 @@ let create scope (i : _ I.t) : _ O.t =
   let%hw_var row_top = Variable.reg spec ~width:data_width in
   let%hw_var row_mid = Variable.reg spec ~width:data_width in
   let%hw_var row_bot = Variable.reg spec ~width:data_width in
-
   let%hw_var output_row = Variable.reg spec ~width:data_width in
   (* counter for initial 3-row loading *)
   let%hw_var prime_count = Variable.reg spec ~width:2 in
@@ -57,15 +55,12 @@ let create scope (i : _ I.t) : _ O.t =
   let%hw_var active_buffer = Variable.reg spec ~width:1 in
   (* Shift mode flag for prime state *)
   let%hw_var is_shifting = Variable.reg spec ~width:1 in
-
   let%hw_var part1_acc = Variable.reg spec ~width:result_width in
   let%hw_var part2_acc = Variable.reg spec ~width:result_width in
-
   let%hw_var bram_a_write_enable = Variable.reg spec ~width:1 in
   let%hw_var bram_a_write_addr = Variable.reg spec ~width:8 in
   let%hw_var bram_a_write_data = Variable.reg spec ~width:data_width in
   let%hw_var bram_a_read_addr = Variable.reg spec ~width:8 in
-
   let%hw_var bram_b_write_enable = Variable.reg spec ~width:1 in
   let%hw_var bram_b_write_addr = Variable.reg spec ~width:8 in
   let%hw_var bram_b_write_data = Variable.reg spec ~width:data_width in
@@ -83,7 +78,10 @@ let create scope (i : _ I.t) : _ O.t =
            }
         |]
       ~read_ports:
-        [| { read_clock = i.clock; read_enable = vdd; read_address = bram_a_read_addr.value }
+        [| { read_clock = i.clock
+           ; read_enable = vdd
+           ; read_address = bram_a_read_addr.value
+           }
         |]
       ()
   in
@@ -100,7 +98,10 @@ let create scope (i : _ I.t) : _ O.t =
            }
         |]
       ~read_ports:
-        [| { read_clock = i.clock; read_enable = vdd; read_address = bram_b_read_addr.value }
+        [| { read_clock = i.clock
+           ; read_enable = vdd
+           ; read_address = bram_b_read_addr.value
+           }
         |]
       ()
   in
@@ -125,7 +126,6 @@ let create scope (i : _ I.t) : _ O.t =
     in
     mux bit_idx bit_positions
   in
-
   let col = col_idx.value in
   let col_left = col -:. 1 in
   let col_right = col +:. 1 in
@@ -181,10 +181,8 @@ let create scope (i : _ I.t) : _ O.t =
       bram_a_write_enable <--. 0
     ; bram_b_write_enable <--. 0
     ; sm.switch
-        [
-          ( Idle
-          , [
-              load_row_idx <--. 0
+        [ ( Idle
+          , [ load_row_idx <--. 0
             ; row_idx <--. 1 (* Start at row 1, first data row *)
             ; col_idx <--. 1 (* Start at col 1, first data col *)
             ; prime_count <--. 0
@@ -206,8 +204,7 @@ let create scope (i : _ I.t) : _ O.t =
                 ; sm.set_next Load_row
                 ]
             ] )
-        ;
-          (* Load external RAM data into BRAM A *)
+        ; (* Load external RAM data into BRAM A *)
           ( Load_row
           , [ bram_a_write_enable <--. 1
             ; bram_a_write_addr <-- load_row_idx.value
@@ -223,20 +220,16 @@ let create scope (i : _ I.t) : _ O.t =
                 ; bram_b_read_addr <--. 0
                 ; sm.set_next Prime
                 ]
-                [ incr load_row_idx
-                ; sm.set_next Load_row
-                ]
+                [ incr load_row_idx; sm.set_next Load_row ]
             ] )
-        ;
-          (* Prime the 3-row buffer because of BRAM 1-cycle latency *)
+        ; (* Prime the 3-row buffer because of BRAM 1-cycle latency *)
           ( Prime
           , [ if_
                 is_shifting.value
                 [ (* Shift mode: Request sent in Write_row. Wait 1 cycle for data. *)
                   if_
                     (prime_count.value ==:. 0)
-                    [ (* Cycle 0 *)
-                      prime_count <--. 1 ]
+                    [ (* Cycle 0 *) prime_count <--. 1 ]
                     [ (* Cycle 1 *)
                       row_bot <-- bram_read_data
                     ; col_idx <--. 1
@@ -278,36 +271,32 @@ let create scope (i : _ I.t) : _ O.t =
                     ]
                 ]
             ] )
-        ;
-          (* Process one cell per cycle *)
+        ; (* Process one cell per cycle *)
           ( Scan
           , [ (* Compute new cell value: Part 1 keeps original, Part 2 uses survival *)
-              let new_cell = mux2 part1_mode.value center survives in
-              proc
-                [ output_row <-- set_bit output_row.value col_idx.value new_cell
-                ; (* Count weak cells *)
-                  when_
-                    is_weak
-                    [ if_
-                        part1_mode.value
-                        [ part1_acc <-- part1_acc.value +:. 1 ]
-                        [ part2_acc <-- part2_acc.value +:. 1
-                        ; changes_this_gen <--. 1
-                        ]
-                    ]
-                ; (* Advance to next column or finish row *)
-                  if_
-                    (col_idx.value +:. 2 <=: grid_width.value) (* col+1 <= width-2 *)
-                    [ incr col_idx ]
-                    [ sm.set_next Write_row ]
-                ]
+              (let new_cell = mux2 part1_mode.value center survives in
+               proc
+                 [ output_row <-- set_bit output_row.value col_idx.value new_cell
+                 ; (* Count weak cells *)
+                   when_
+                     is_weak
+                     [ if_
+                         part1_mode.value
+                         [ part1_acc <-- part1_acc.value +:. 1 ]
+                         [ part2_acc <-- part2_acc.value +:. 1; changes_this_gen <--. 1 ]
+                     ]
+                 ; (* Advance to next column or finish row *)
+                   if_
+                     (col_idx.value +:. 2 <=: grid_width.value) (* col+1 <= width-2 *)
+                     [ incr col_idx ]
+                     [ sm.set_next Write_row ]
+                 ])
             ] )
-        ;
-          (* Write processed row to output BRAM, advance to next row *)
+        ; (* Write processed row to output BRAM, advance to next row *)
           ( Write_row
           , [ (* Part 2: write to output buffer *)
               when_
-                (~:(part1_mode.value))
+                ~:(part1_mode.value)
                 [ if_
                     active_buffer.value
                     [ bram_a_write_enable <--. 1
@@ -324,7 +313,10 @@ let create scope (i : _ I.t) : _ O.t =
                 (row_idx.value +:. 2 <=: grid_height.value) (* row+1 <= height-2 *)
                 [ (* Shift rows and load next *)
                   row_top
-                  <-- mux2 part1_mode.value row_mid.value output_row.value (* For Part 2, use modified row *)
+                  <-- mux2
+                        part1_mode.value
+                        row_mid.value
+                        output_row.value (* For Part 2, use modified row *)
                 ; row_mid <-- row_bot.value
                 ; incr row_idx
                 ; bram_a_read_addr <-- row_idx.value +:. 2 (* Prefetch next row_bot *)
@@ -360,14 +352,11 @@ let create scope (i : _ I.t) : _ O.t =
                         ; is_shifting <--. 0
                         ; sm.set_next Prime
                         ]
-                        [ (* Stable - done *)
-                          sm.set_next Done
-                        ]
+                        [ (* Stable - done *) sm.set_next Done ]
                     ]
                 ]
             ] )
-        ;
-          (Done, [])
+        ; Done, []
         ]
     ];
   { O.ram_read_addr = uresize load_row_idx.value ~width:addr_bits

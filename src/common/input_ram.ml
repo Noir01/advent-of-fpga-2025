@@ -48,11 +48,7 @@ struct
              }
           |]
         ~read_ports:
-          [| { read_clock = i.clock
-             ; read_enable = vdd
-             ; read_address = i.read_addr
-             }
-          |]
+          [| { read_clock = i.clock; read_enable = vdd; read_address = i.read_addr } |]
         ()
     in
     (* Register output for better timing *)

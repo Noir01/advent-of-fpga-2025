@@ -1,12 +1,11 @@
 (** Top-level module: Wires together UART, Loader, RAM, and Solver.
 
-    State machine:
-    Idle -> (start byte) --> Loading -> (load done) --> Running -> (solver done) --> Output -> (tx done) --> Idle *)
+    State machine: Idle -> (start byte) --> Loading -> (load done) --> Running -> (solver
+    done) --> Output -> (tx done) --> Idle *)
 
 open! Core
 open! Hardcaml
 open! Signal
-
 module Uart_rx_module = Uart_rx
 module Uart_tx_module = Uart_tx
 module Loader_module = Loader
@@ -51,6 +50,7 @@ struct
   let data_width = Solver.data_width
   let addr_bits = Solver.addr_bits
   let result_width = Solver.result_width
+
   (* Total bytes to transmit: part1 + part2 *)
   let result_bytes = 2 * ((result_width + 7) / 8)
 
@@ -164,14 +164,14 @@ struct
     (* Extract current byte based on tx_byte_index (little-endian) *)
     (* Shift amount = byte_index * 8 *)
     let shift_amount = uresize ~width:7 (sll ~by:3 tx_byte_index.value) in
-    let current_byte = sel_bottom ~width:8 (log_shift ~f:srl ~by:shift_amount result_reg.value) in
+    let current_byte =
+      sel_bottom ~width:8 (log_shift ~f:srl ~by:shift_amount result_reg.value)
+    in
     compile
       [ sm.switch
           [ ( Idle
             , [ (* Wait for any byte to trigger loading *)
-                when_
-                  uart_rx.valid
-                  [ loader_start <-- vdd; sm.set_next Loading ]
+                when_ uart_rx.valid [ loader_start <-- vdd; sm.set_next Loading ]
               ] )
           ; ( Loading
             , [ (* Wait for loader to finish *)
@@ -205,9 +205,7 @@ struct
                   ]
                   [ when_
                       uart_tx.done_
-                      [ tx_pending <--. 0
-                      ; tx_byte_index <-- tx_byte_index.value +:. 1
-                      ]
+                      [ tx_pending <--. 0; tx_byte_index <-- tx_byte_index.value +:. 1 ]
                   ]
               ] )
           ]

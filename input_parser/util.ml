@@ -1,7 +1,7 @@
 (** Common utilities for input parsing.
 
-    Provides UART symbol types and helper functions for converting
-    parsed data into byte streams for FPGA simulation. *)
+    Provides UART symbol types and helper functions for converting parsed data into byte
+    streams for FPGA simulation. *)
 
 open! Core
 

@@ -1,5 +1,5 @@
-(** This file was LLM generated, I may try to
-rewrite this towards the end of the challenge. *)
+(** This file was LLM generated, I may try to rewrite this towards the end of the
+    challenge. *)
 
 open! Core
 open! Hardcaml

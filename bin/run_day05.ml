@@ -5,12 +5,9 @@ module Day05_parser = Advent_of_fpga_2025_input_parser.Day05
 module Sim = Cyclesim.With_interface (Day05_solver.I) (Day05_solver.O)
 
 (** Encode an int64 to a Bits value of data_width bits *)
-let encode_value v =
-  Bits.of_int64_trunc ~width:Day05_solver.data_width v
-;;
+let encode_value v = Bits.of_int64_trunc ~width:Day05_solver.data_width v
 
-(** Build RAM data from parsed input.
-    Layout:
+(** Build RAM data from parsed input. Layout:
     - Address 0: num_ranges
     - Address 1: num_numbers
     - Address 2 to 2+2*num_ranges-1: ranges (start, end pairs)
@@ -25,8 +22,7 @@ let build_ram_data ~num_ranges ~num_numbers ~ranges ~numbers =
     data := encode_value start_v :: !data;
     data := encode_value end_v :: !data);
   (* Add numbers *)
-  List.iter numbers ~f:(fun n ->
-    data := encode_value n :: !data);
+  List.iter numbers ~f:(fun n -> data := encode_value n :: !data);
   Array.of_list (List.rev !data)
 ;;
 

@@ -27,6 +27,5 @@ let () =
   Command_unix.run
     (Command.group
        ~summary:"Generate Verilog RTL for Advent of FPGA designs"
-       [ "day01", day01_top_command
-       ])
+       [ "day01", day01_top_command ])
 ;;

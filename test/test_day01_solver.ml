@@ -1,5 +1,5 @@
-(** This file was LLM generated, I may try to
-rewrite this towards the end of the challenge. *)
+(** This file was LLM generated, I may try to rewrite this towards the end of the
+    challenge. *)
 
 open! Core
 open! Hardcaml
@@ -7,8 +7,8 @@ open! Hardcaml_test_harness
 module Day01_solver = Advent_of_fpga_2025.Day01_solver
 module Harness = Cyclesim_harness.Make (Day01_solver.I) (Day01_solver.O)
 
-(** Convert direction and distance to 16-bit word.
-    Bit 15 = direction (1=L, 0=R), bits 14-0 = distance *)
+(** Convert direction and distance to 16-bit word. Bit 15 = direction (1=L, 0=R), bits
+    14-0 = distance *)
 let encode_input dir dist =
   let dir_bit = if Char.equal dir 'L' then 0x8000 else 0 in
   dir_bit lor dist

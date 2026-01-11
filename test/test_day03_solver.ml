@@ -4,14 +4,14 @@ open! Hardcaml_test_harness
 module Day03_solver = Advent_of_fpga_2025.Day03_solver
 module Harness = Cyclesim_harness.Make (Day03_solver.I) (Day03_solver.O)
 
-(** Encode a digit string to a 400-bit Bits value.
-    Each digit (1-9) is encoded as 4 bits, concatenated MSB first. *)
+(** Encode a digit string to a 400-bit Bits value. Each digit (1-9) is encoded as 4 bits,
+    concatenated MSB first. *)
 let encode_line s =
   let digit_bits =
     String.to_list s
     |> List.map ~f:(fun c ->
-         let d = Char.get_digit_exn c in
-         Bits.of_int_trunc ~width:4 d)
+      let d = Char.get_digit_exn c in
+      Bits.of_int_trunc ~width:4 d)
   in
   (* Concatenate MSB first, then zero-extend to data_width *)
   let encoded = Bits.concat_msb digit_bits in
@@ -62,10 +62,6 @@ let run_solver input_lines =
 
 let%expect_test "Sample test" =
   run_solver
-    [ "987654321111111"
-    ; "811111111111119"
-    ; "234234234234278"
-    ; "818181911112111"
-    ];
+    [ "987654321111111"; "811111111111119"; "234234234234278"; "818181911112111" ];
   [%expect {| (Results (part1 357) (part2 3121910778619) (!cycles_run 860)) |}]
 ;;

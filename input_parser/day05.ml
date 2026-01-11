@@ -16,8 +16,8 @@ let parse_impl raw =
   let lines = List.map lines ~f:String.strip in
   (* Find the empty line that separates ranges from numbers *)
   let rec split_at_empty acc = function
-    | [] -> (List.rev acc, [])
-    | "" :: rest -> (List.rev acc, rest)
+    | [] -> List.rev acc, []
+    | "" :: rest -> List.rev acc, rest
     | line :: rest -> split_at_empty (line :: acc) rest
   in
   let range_lines, number_lines = split_at_empty [] lines in
@@ -31,14 +31,14 @@ let parse_impl raw =
       | Some (start_s, end_s) ->
         let start_v = Int64.of_string start_s in
         let end_v = Int64.of_string end_s in
-        (start_v, end_v)
+        start_v, end_v
       | None -> failwith (sprintf "Invalid range format: %s" line))
   in
   (* Parse numbers *)
   let numbers = List.map number_lines ~f:Int64.of_string in
   let num_ranges = List.length ranges in
   let num_numbers = List.length numbers in
-  (num_ranges, num_numbers, ranges, numbers)
+  num_ranges, num_numbers, ranges, numbers
 ;;
 
 let parse ?(verbose = false) filename =

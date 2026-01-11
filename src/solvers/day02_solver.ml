@@ -73,7 +73,8 @@ let f_values =
    ; (* len=7, prime=7, digits=1 *) [| 1111111L; 0L; 0L |]
    ; (* len=8, prime=2, digits=4 *) [| 10001L; 0L; 0L |]
    ; (* len=9, prime=3, digits=3 *) [| 1001001L; 0L; 0L |]
-   ; (* len=10, prime0=2->digits=5, prime1=5->digits=2 *) [| 100001L; 101010101L; 1111111111L |]
+   ; (* len=10, prime0=2->digits=5, prime1=5->digits=2 *)
+     [| 100001L; 101010101L; 1111111111L |]
   |]
 ;;
 
@@ -105,49 +106,25 @@ let create scope (i : _ I.t) : _ O.t =
   let range_end =
     Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
   in
-  let len_end =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:4)
-  in
-  let current_len =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:4)
-  in
-  let prime_idx =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:2)
-  in
-  let f_value =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
-  in
+  let len_end = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:4) in
+  let current_len = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:4) in
+  let prime_idx = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:2) in
+  let f_value = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width) in
   let effective_start =
     Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
   in
   let effective_end =
     Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
   in
-  let a_value =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
-  in
-  let b_value =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width)
-  in
-  let unit_done =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:1)
-  in
-  let part1_local =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:128)
-  in
-  let part2_local =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:128)
-  in
+  let a_value = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width) in
+  let b_value = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:data_width) in
+  let unit_done = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:1) in
+  let part1_local = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:128) in
+  let part2_local = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:128) in
   (* Divider control - 4 copies *)
-  let div_start_pulse =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:1)
-  in
-  let div_numerator =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:64)
-  in
-  let div_denominator =
-    Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:64)
-  in
+  let div_start_pulse = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:1) in
+  let div_numerator = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:64) in
+  let div_denominator = Array.init num_units ~f:(fun _ -> Variable.reg spec ~width:64) in
   (* Compute digit length of a value: returns 1-11 *)
   let digit_length value =
     let open Signal in
@@ -244,76 +221,77 @@ let create scope (i : _ I.t) : _ O.t =
   (* Calculate how many words to load this batch *)
   let words_remaining = i.input_count -: uresize read_addr.value ~width:addr_bits in
   let words_this_batch =
-    mux2 (words_remaining >=:. 8) (of_int_trunc ~width:4 8) (uresize words_remaining ~width:4)
+    mux2
+      (words_remaining >=:. 8)
+      (of_int_trunc ~width:4 8)
+      (uresize words_remaining ~width:4)
   in
   compile
     [ (* Clear all divider start pulses each cycle *)
-      proc
-        (Array.to_list (Array.map div_start_pulse ~f:(fun pulse -> pulse <--. 0)))
+      proc (Array.to_list (Array.map div_start_pulse ~f:(fun pulse -> pulse <--. 0)))
     ; sm.switch
         [ ( Idle
           , [ read_addr <--. 0
             ; part1_accum <--. 0
             ; part2_accum <--. 0
             ; proc
-                (Array.to_list
-                   (Array.map part1_local ~f:(fun p -> p <--. 0))
+                (Array.to_list (Array.map part1_local ~f:(fun p -> p <--. 0))
                  @ Array.to_list (Array.map part2_local ~f:(fun p -> p <--. 0)))
             ; when_ i.start [ sm.set_next Load_batch; load_word_idx <--. 0 ]
             ] )
         ; ( Load_batch
-          , (let prev_idx = load_word_idx.value -:. 1 in
-             let prev_unit = srl prev_idx ~by:1 in
-             let prev_is_start = ~:(lsb prev_idx) in
-             [ (* Check if we have any words to load *)
-               if_
-                 (load_word_idx.value >=: words_this_batch)
-                 [ (* All words loaded, wait for last one and initialize units *)
-                   sm.set_next Wait_load
-                 ]
-                 [ (* Issue read for current word, address is read_addr + load_word_idx *)
-                   sm.set_next Load_batch
-                 ; incr load_word_idx
-                 ; (* Latch the previous word (1 cycle latency) *)
-                   when_
-                     (load_word_idx.value >:. 0)
-                     (Array.to_list
-                        (Array.mapi range_start ~f:(fun idx rs ->
-                           when_
-                             (uresize prev_unit ~width:2 ==:. idx &: prev_is_start)
-                             [ rs <-- i.ram_read_data ]))
+          , let prev_idx = load_word_idx.value -:. 1 in
+            let prev_unit = srl prev_idx ~by:1 in
+            let prev_is_start = ~:(lsb prev_idx) in
+            [ (* Check if we have any words to load *)
+              if_
+                (load_word_idx.value >=: words_this_batch)
+                [ (* All words loaded, wait for last one and initialize units *)
+                  sm.set_next Wait_load
+                ]
+                [ (* Issue read for current word, address is read_addr + load_word_idx *)
+                  sm.set_next Load_batch
+                ; incr load_word_idx
+                ; (* Latch the previous word (1 cycle latency) *)
+                  when_
+                    (load_word_idx.value >:. 0)
+                    (Array.to_list
+                       (Array.mapi range_start ~f:(fun idx rs ->
+                          when_
+                            (uresize prev_unit ~width:2 ==:. idx &: prev_is_start)
+                            [ rs <-- i.ram_read_data ]))
                      @ Array.to_list
                          (Array.mapi range_end ~f:(fun idx re ->
                             when_
                               (uresize prev_unit ~width:2 ==:. idx &: ~:prev_is_start)
                               [ re <-- i.ram_read_data ])))
-                 ]
-             ]) )
+                ]
+            ] )
         ; ( Wait_load
-          , (let final_idx = load_word_idx.value -:. 1 in
-             let final_unit = srl final_idx ~by:1 in
-             let final_is_start = ~:(lsb final_idx) in
-             Array.to_list
-               (Array.mapi range_start ~f:(fun idx rs ->
-                  when_
-                    (uresize final_unit ~width:2 ==:. idx &: final_is_start)
-                    [ rs <-- i.ram_read_data ]))
-             @ Array.to_list
-                 (Array.mapi range_end ~f:(fun idx re ->
-                    when_
-                      (uresize final_unit ~width:2 ==:. idx &: ~:final_is_start)
-                      [ re <-- i.ram_read_data ]))
-             @ Array.to_list
-                 (Array.mapi unit_done ~f:(fun idx ud ->
-                    let words_needed = of_int_trunc ~width:4 ((idx + 1) * 2) in
-                    ud <-- mux2 (words_this_batch >=: words_needed) gnd vdd))
-             @ [ read_addr
-                 <-- uresize
-                       (uresize read_addr.value ~width:12
+          , let final_idx = load_word_idx.value -:. 1 in
+            let final_unit = srl final_idx ~by:1 in
+            let final_is_start = ~:(lsb final_idx) in
+            Array.to_list
+              (Array.mapi range_start ~f:(fun idx rs ->
+                 when_
+                   (uresize final_unit ~width:2 ==:. idx &: final_is_start)
+                   [ rs <-- i.ram_read_data ]))
+            @ Array.to_list
+                (Array.mapi range_end ~f:(fun idx re ->
+                   when_
+                     (uresize final_unit ~width:2 ==:. idx &: ~:final_is_start)
+                     [ re <-- i.ram_read_data ]))
+            @ Array.to_list
+                (Array.mapi unit_done ~f:(fun idx ud ->
+                   let words_needed = of_int_trunc ~width:4 ((idx + 1) * 2) in
+                   ud <-- mux2 (words_this_batch >=: words_needed) gnd vdd))
+            @ [ read_addr
+                <-- uresize
+                      (uresize read_addr.value ~width:12
                        +: uresize words_this_batch ~width:12)
-                       ~width:addr_bits
-               ; sm.set_next Par_compute_len
-               ]) )
+                      ~width:addr_bits
+              ; sm.set_next Par_compute_len
+              ] )
         ; ( Par_compute_len
           , [ proc
                 (Array.to_list
@@ -338,9 +316,7 @@ let create scope (i : _ I.t) : _ O.t =
                             [ (* If current_len == 1, skip to next length *)
                               when_
                                 (current_len.(idx).value ==:. 1)
-                                [ current_len.(idx)
-                                  <-- current_len.(idx).value +:. 1
-                                ]
+                                [ current_len.(idx) <-- current_len.(idx).value +:. 1 ]
                             ]
                         ])))
             ; (* Check if all units are done or need to continue *)
@@ -348,26 +324,26 @@ let create scope (i : _ I.t) : _ O.t =
                 all_units_done
                 [ sm.set_next Next_batch ]
                 [ (* Check if any unit still has len==1 to skip *)
-                  let any_at_len_1 =
-                    Array.foldi current_len ~init:gnd ~f:(fun idx acc cl ->
-                      acc
-                      |: (~:(unit_done.(idx).value)
-                         &: (cl.value ==:. 1)
-                         &: (cl.value <=: len_end.(idx).value)))
-                  in
-                  (* Check if any unit needs to continue with primes (pi > 0) *)
-                  let any_continuing_prime =
-                    Array.foldi prime_idx ~init:gnd ~f:(fun idx acc pi ->
-                      acc |: (~:(unit_done.(idx).value) &: (pi.value >:. 0)))
-                  in
-                  if_
-                    any_at_len_1
-                    [ sm.set_next Par_check_len ]
-                    [ if_
-                        any_continuing_prime
-                        [ sm.set_next Par_load_f ]
-                        [ sm.set_next Par_init_prime ]
-                    ]
+                  (let any_at_len_1 =
+                     Array.foldi current_len ~init:gnd ~f:(fun idx acc cl ->
+                       acc
+                       |: (~:(unit_done.(idx).value)
+                           &: (cl.value ==:. 1)
+                           &: (cl.value <=: len_end.(idx).value)))
+                   in
+                   (* Check if any unit needs to continue with primes (pi > 0) *)
+                   let any_continuing_prime =
+                     Array.foldi prime_idx ~init:gnd ~f:(fun idx acc pi ->
+                       acc |: (~:(unit_done.(idx).value) &: (pi.value >:. 0)))
+                   in
+                   if_
+                     any_at_len_1
+                     [ sm.set_next Par_check_len ]
+                     [ if_
+                         any_continuing_prime
+                         [ sm.set_next Par_load_f ]
+                         [ sm.set_next Par_init_prime ]
+                     ])
                 ]
             ] )
         ; ( Par_init_prime
@@ -413,9 +389,7 @@ let create scope (i : _ I.t) : _ O.t =
                             ]
                             [ div_numerator.(idx)
                               <-- uresize
-                                    (effective_start.(idx).value
-                                    +: fv.value
-                                    -:. 1)
+                                    (effective_start.(idx).value +: fv.value -:. 1)
                                     ~width:64
                             ; div_denominator.(idx) <-- uresize fv.value ~width:64
                             ; div_start_pulse.(idx) <--. 1
@@ -423,7 +397,7 @@ let create scope (i : _ I.t) : _ O.t =
                         ])))
             ; sm.set_next Par_div_a_start
             ] )
-        ; (Par_div_a_start, [ sm.set_next Par_div_a_wait ])
+        ; Par_div_a_start, [ sm.set_next Par_div_a_wait ]
         ; ( Par_div_a_wait
           , [ when_
                 all_dividers_done
@@ -433,9 +407,7 @@ let create scope (i : _ I.t) : _ O.t =
                           when_
                             (~:(unit_done.(idx).value) &: (f_value.(idx).value <>:. 0))
                             [ av
-                              <-- sel_bottom
-                                    div_outputs.(idx).quotient
-                                    ~width:data_width
+                              <-- sel_bottom div_outputs.(idx).quotient ~width:data_width
                             ; (* Start division for b *)
                               div_numerator.(idx)
                               <-- uresize effective_end.(idx).value ~width:64
@@ -446,7 +418,7 @@ let create scope (i : _ I.t) : _ O.t =
                 ; sm.set_next Par_div_b_start
                 ]
             ] )
-        ; (Par_div_b_start, [ sm.set_next Par_div_b_wait ])
+        ; Par_div_b_start, [ sm.set_next Par_div_b_wait ]
         ; ( Par_div_b_wait
           , [ when_
                 all_dividers_done
@@ -456,9 +428,7 @@ let create scope (i : _ I.t) : _ O.t =
                           when_
                             (~:(unit_done.(idx).value) &: (f_value.(idx).value <>:. 0))
                             [ bv
-                              <-- sel_bottom
-                                    div_outputs.(idx).quotient
-                                    ~width:data_width
+                              <-- sel_bottom div_outputs.(idx).quotient ~width:data_width
                             ])))
                 ; sm.set_next Par_compute_terms
                 ]
@@ -469,29 +439,23 @@ let create scope (i : _ I.t) : _ O.t =
                    (Array.mapi part1_local ~f:(fun idx p1 ->
                       when_
                         (~:(unit_done.(idx).value)
-                        &: (b_value.(idx).value >=: a_value.(idx).value))
+                         &: (b_value.(idx).value >=: a_value.(idx).value))
                         [ (* Part 1: only accumulate for prime_idx=0 and even lengths *)
                           when_
                             (prime_idx.(idx).value ==:. 0 &: is_even_len.(idx))
-                            [ p1
-                              <-- p1.value +: uresize series_result.(idx) ~width:128
-                            ]
+                            [ p1 <-- p1.value +: uresize series_result.(idx) ~width:128 ]
                         ])))
             ; proc
                 (Array.to_list
                    (Array.mapi part2_local ~f:(fun idx p2 ->
                       when_
                         (~:(unit_done.(idx).value)
-                        &: (b_value.(idx).value >=: a_value.(idx).value))
+                         &: (b_value.(idx).value >=: a_value.(idx).value))
                         [ (* Part 2: inclusion-exclusion *)
                           if_
                             (prime_idx.(idx).value ==:. 2)
-                            [ p2
-                              <-- p2.value -: uresize series_result.(idx) ~width:128
-                            ]
-                            [ p2
-                              <-- p2.value +: uresize series_result.(idx) ~width:128
-                            ]
+                            [ p2 <-- p2.value -: uresize series_result.(idx) ~width:128 ]
+                            [ p2 <-- p2.value +: uresize series_result.(idx) ~width:128 ]
                         ])))
             ; sm.set_next Par_next_prime
             ] )
@@ -507,8 +471,7 @@ let create scope (i : _ I.t) : _ O.t =
                                 has_second.(idx)
                                 [ pi <--. 1 ]
                                 [ (* No second prime, go to next length *)
-                                  current_len.(idx)
-                                  <-- current_len.(idx).value +:. 1
+                                  current_len.(idx) <-- current_len.(idx).value +:. 1
                                 ; pi <--. 0
                                 ]
                             ]
@@ -516,8 +479,7 @@ let create scope (i : _ I.t) : _ O.t =
                                (pi.value ==:. 1)
                                [ pi <--. 2 ]
                                [ (* After exclusion (pi=2), go to next length *)
-                                 current_len.(idx)
-                                 <-- current_len.(idx).value +:. 1
+                                 current_len.(idx) <-- current_len.(idx).value +:. 1
                                ; pi <--. 0
                                ]
                         ])))
@@ -530,8 +492,7 @@ let create scope (i : _ I.t) : _ O.t =
                 (uresize read_addr.value ~width:addr_bits >=: i.input_count)
                 [ sm.set_next Reduce ]
                 [ (* Reset unit_done flags and start loading next batch *)
-                  proc
-                    (Array.to_list (Array.map unit_done ~f:(fun ud -> ud <--. 0)))
+                  proc (Array.to_list (Array.map unit_done ~f:(fun ud -> ud <--. 0)))
                 ; load_word_idx <--. 0
                 ; sm.set_next Load_batch
                 ]
@@ -539,23 +500,18 @@ let create scope (i : _ I.t) : _ O.t =
         ; ( Reduce
           , [ (* Sum all partial accumulators *)
               part1_accum
-              <-- Array.fold part1_local ~init:(zero 128) ~f:(fun acc p ->
-                    acc +: p.value)
+              <-- Array.fold part1_local ~init:(zero 128) ~f:(fun acc p -> acc +: p.value)
             ; part2_accum
-              <-- Array.fold part2_local ~init:(zero 128) ~f:(fun acc p ->
-                    acc +: p.value)
+              <-- Array.fold part2_local ~init:(zero 128) ~f:(fun acc p -> acc +: p.value)
             ; sm.set_next Done
             ] )
-        ; (Done, [])
+        ; Done, []
         ]
     ];
   (* When latching, we want data for load_word_idx - 1 so that address
      When load_word_idx = 0 (first iteration), so 0 *)
   let effective_load_idx =
-    mux2
-      (load_word_idx.value >:. 0)
-      (load_word_idx.value -:. 1)
-      load_word_idx.value
+    mux2 (load_word_idx.value >:. 0) (load_word_idx.value -:. 1) load_word_idx.value
   in
   { O.ram_read_addr =
       uresize read_addr.value ~width:addr_bits

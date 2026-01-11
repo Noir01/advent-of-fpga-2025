@@ -77,7 +77,6 @@ let create scope (i : _ I.t) : _ O.t =
   let%hw_var range_idx = Variable.reg spec ~width:16 in
   let%hw_var ingredient_idx = Variable.reg spec ~width:16 in
   (* Insertion sort state *)
-
   let%hw_var insert_pos = Variable.reg spec ~width:16 in
   let%hw_var shift_idx = Variable.reg spec ~width:16 in
   let%hw_var new_start = Variable.reg spec ~width:data_width in
@@ -124,7 +123,10 @@ let create scope (i : _ I.t) : _ O.t =
            }
         |]
       ~read_ports:
-        [| { read_clock = i.clock; read_enable = vdd; read_address = bram_a_read_addr_wire.value }
+        [| { read_clock = i.clock
+           ; read_enable = vdd
+           ; read_address = bram_a_read_addr_wire.value
+           }
         |]
       ()
   in
@@ -141,7 +143,10 @@ let create scope (i : _ I.t) : _ O.t =
            }
         |]
       ~read_ports:
-        [| { read_clock = i.clock; read_enable = vdd; read_address = bram_b_read_addr_wire.value }
+        [| { read_clock = i.clock
+           ; read_enable = vdd
+           ; read_address = bram_b_read_addr_wire.value
+           }
         |]
       ()
   in
@@ -184,10 +189,7 @@ let create scope (i : _ I.t) : _ O.t =
             ] )
         ; (* === LOAD COUNTS === *)
           (* Request address 0 (num_ranges) *)
-          ( Load_counts_req
-          , [ ram_addr <--. 0
-            ; sm.set_next Load_counts_wait
-            ] )
+          Load_counts_req, [ ram_addr <--. 0; sm.set_next Load_counts_wait ]
         ; (* Wait one cycle for RAM latency *)
           ( Load_counts_wait
           , [ ram_addr <--. 1 (* Request num_numbers *)
@@ -246,8 +248,14 @@ let create scope (i : _ I.t) : _ O.t =
                 ; (* Start shifting from range_idx-1 down to insert_pos *)
                   shift_idx <-- range_idx.value -:. 1
                 ; (* Request first range to shift (range_idx-1) *)
-                  bram_a_read_addr <-- uresize (concat_msb [ (range_idx.value -:. 1); gnd ]) ~width:range_bram_addr_bits
-                ; bram_a_read_addr_wire <-- uresize (concat_msb [ (range_idx.value -:. 1); gnd ]) ~width:range_bram_addr_bits
+                  bram_a_read_addr
+                  <-- uresize
+                        (concat_msb [ range_idx.value -:. 1; gnd ])
+                        ~width:range_bram_addr_bits
+                ; bram_a_read_addr_wire
+                  <-- uresize
+                        (concat_msb [ range_idx.value -:. 1; gnd ])
+                        ~width:range_bram_addr_bits
                 ; sm.set_next Insert_shift_read
                 ]
                 [ (* Continue searching forward *)
@@ -260,13 +268,14 @@ let create scope (i : _ I.t) : _ O.t =
                     ]
                     [ (* Request next range start *)
                       bram_a_read_addr
-                      <-- uresize (concat_msb [ (shift_idx.value +:. 1); gnd ]) ~width:range_bram_addr_bits
+                      <-- uresize
+                            (concat_msb [ shift_idx.value +:. 1; gnd ])
+                            ~width:range_bram_addr_bits
                     ; sm.set_next Insert_find_wait
                     ]
                 ]
             ] )
-        ; ( Insert_find_wait
-          , [ sm.set_next Insert_find ] )
+        ; Insert_find_wait, [ sm.set_next Insert_find ]
         ; (* Read range to shift - read start first *)
           ( Insert_shift_read
           , [ (* We have start at current read position, request end *)
@@ -275,7 +284,9 @@ let create scope (i : _ I.t) : _ O.t =
             ; (* Pre-emptively enable write to destination (shift_idx + 1) *)
               bram_a_write_enable <--. 1
             ; bram_a_write_addr
-              <-- uresize (concat_msb [ (shift_idx.value +:. 1); gnd ]) ~width:range_bram_addr_bits
+              <-- uresize
+                    (concat_msb [ shift_idx.value +:. 1; gnd ])
+                    ~width:range_bram_addr_bits
             ; bram_a_write_data <-- bram_a_read_data.(0)
             ; sm.set_next Insert_shift_write
             ] )
@@ -287,21 +298,26 @@ let create scope (i : _ I.t) : _ O.t =
             ; bram_a_write_data <-- bram_a_read_data.(0)
             ; if_
                 (shift_idx.value ==: insert_pos.value)
-                [ (* Done shifting, write new range *)
-                  sm.set_next Insert_write_start
-                ]
+                [ (* Done shifting, write new range *) sm.set_next Insert_write_start ]
                 [ (* More ranges to shift *)
                   shift_idx <-- shift_idx.value -:. 1
                 ; (* Request next range to shift (working backwards) *)
-                  bram_a_read_addr <-- uresize (concat_msb [ (shift_idx.value -:. 1); gnd ]) ~width:range_bram_addr_bits
-                ; bram_a_read_addr_wire <-- uresize (concat_msb [ (shift_idx.value -:. 1); gnd ]) ~width:range_bram_addr_bits
+                  bram_a_read_addr
+                  <-- uresize
+                        (concat_msb [ shift_idx.value -:. 1; gnd ])
+                        ~width:range_bram_addr_bits
+                ; bram_a_read_addr_wire
+                  <-- uresize
+                        (concat_msb [ shift_idx.value -:. 1; gnd ])
+                        ~width:range_bram_addr_bits
                 ; sm.set_next Insert_shift_read
                 ]
             ] )
         ; (* Write new range start at insert_pos *)
           ( Insert_write_start
           , [ bram_a_write_enable <--. 1
-            ; bram_a_write_addr <-- uresize (sll insert_pos.value ~by:1) ~width:range_bram_addr_bits
+            ; bram_a_write_addr
+              <-- uresize (sll insert_pos.value ~by:1) ~width:range_bram_addr_bits
             ; bram_a_write_data <-- new_start.value
             ; sm.set_next Insert_write_end
             ] )
@@ -323,7 +339,7 @@ let create scope (i : _ I.t) : _ O.t =
         ; (* === LOAD INGREDIENTS === *)
           ( Load_ingredients_req
           , [ sm.set_next Load_ingredients_write
-            ; (* Actually we need to read from global ram_addr which continues from ranges *)
+              (* Actually we need to read from global ram_addr which continues from ranges *)
               (* But wait, parser format: num_ranges, num_numbers, RANGES... NUMBERS... *)
               (* Ranges take 2 * num_ranges words. *)
               (* Start of numbers is 2 + 2*num_ranges *)
@@ -332,7 +348,8 @@ let create scope (i : _ I.t) : _ O.t =
             ] )
         ; ( Load_ingredients_write
           , [ ingr_bram_write_enable <--. 1
-            ; ingr_bram_write_addr <-- uresize ingredient_idx.value ~width:ingr_bram_addr_bits
+            ; ingr_bram_write_addr
+              <-- uresize ingredient_idx.value ~width:ingr_bram_addr_bits
             ; ingr_bram_write_data <-- i.ram_read_data
             ; incr ingredient_idx
             ; incr ram_addr
@@ -377,9 +394,7 @@ let create scope (i : _ I.t) : _ O.t =
                 ; first_range <--. 0
                 ; sm.set_next Merge_process
                 ]
-                [ (* Compare with current merged range *)
-                  sm.set_next Merge_process
-                ]
+                [ (* Compare with current merged range *) sm.set_next Merge_process ]
             ] )
         ; ( Merge_process
           , [ (* Receive end *)
@@ -391,8 +406,14 @@ let create scope (i : _ I.t) : _ O.t =
                 ; if_
                     (range_idx.value +:. 1 >=+ num_ranges.value)
                     [ sm.set_next Merge_final ]
-                    [ bram_a_read_addr <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
-                    ; bram_a_read_addr_wire <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
+                    [ bram_a_read_addr
+                      <-- uresize
+                            (sll (range_idx.value +:. 1) ~by:1)
+                            ~width:range_bram_addr_bits
+                    ; bram_a_read_addr_wire
+                      <-- uresize
+                            (sll (range_idx.value +:. 1) ~by:1)
+                            ~width:range_bram_addr_bits
                     ; sm.set_next Merge_read_start
                     ]
                 ]
@@ -406,22 +427,36 @@ let create scope (i : _ I.t) : _ O.t =
                         (range_idx.value +:. 1 >=+ num_ranges.value)
                         [ sm.set_next Merge_final ]
                         [ bram_a_read_addr
-                          <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
-                        ; bram_a_read_addr_wire <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
+                          <-- uresize
+                                (sll (range_idx.value +:. 1) ~by:1)
+                                ~width:range_bram_addr_bits
+                        ; bram_a_read_addr_wire
+                          <-- uresize
+                                (sll (range_idx.value +:. 1) ~by:1)
+                                ~width:range_bram_addr_bits
                         ; sm.set_next Merge_read_start
                         ]
                     ]
                     [ if_
                         (new_start.value <=+ merge_end.value +:. 1)
                         [ (* Overlapping or adjacent - extend *)
-                          merge_end <-- mux2 (bram_a_read_data.(0) >+ merge_end.value) bram_a_read_data.(0) merge_end.value
+                          merge_end
+                          <-- mux2
+                                (bram_a_read_data.(0) >+ merge_end.value)
+                                bram_a_read_data.(0)
+                                merge_end.value
                         ; incr range_idx
                         ; if_
                             (range_idx.value +:. 1 >=+ num_ranges.value)
                             [ sm.set_next Merge_final ]
                             [ bram_a_read_addr
-                              <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
-                            ; bram_a_read_addr_wire <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
+                              <-- uresize
+                                    (sll (range_idx.value +:. 1) ~by:1)
+                                    ~width:range_bram_addr_bits
+                            ; bram_a_read_addr_wire
+                              <-- uresize
+                                    (sll (range_idx.value +:. 1) ~by:1)
+                                    ~width:range_bram_addr_bits
                             ; sm.set_next Merge_read_start
                             ]
                         ]
@@ -435,10 +470,18 @@ let create scope (i : _ I.t) : _ O.t =
         ; ( Merge_emit
           , [ (* Write merged range start to BRAM B *)
               bram_b_write_enable <--. 1
-            ; bram_b_write_addr <-- uresize (sll merged_count.value ~by:1) ~width:range_bram_addr_bits
+            ; bram_b_write_addr
+              <-- uresize (sll merged_count.value ~by:1) ~width:range_bram_addr_bits
             ; bram_b_write_data <-- merge_start.value
             ; (* Accumulate Part 2 *)
-              part2_acc <-- part2_acc.value +: uresize (mux2 (merge_end.value >=+ merge_start.value) (merge_end.value -: merge_start.value +:. 1) (zero data_width)) ~width:result_width
+              part2_acc
+              <-- part2_acc.value
+                  +: uresize
+                       (mux2
+                          (merge_end.value >=+ merge_start.value)
+                          (merge_end.value -: merge_start.value +:. 1)
+                          (zero data_width))
+                       ~width:result_width
             ; (* Save the new range values for next iteration *)
               (* new_start is already captured in Merge_read_start *)
               sm.set_next Merge_emit_end
@@ -457,18 +500,31 @@ let create scope (i : _ I.t) : _ O.t =
                 (range_idx.value +:. 1 >=+ num_ranges.value)
                 [ sm.set_next Merge_final ]
                 [ bram_a_read_addr
-                  <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
-                ; bram_a_read_addr_wire <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
+                  <-- uresize
+                        (sll (range_idx.value +:. 1) ~by:1)
+                        ~width:range_bram_addr_bits
+                ; bram_a_read_addr_wire
+                  <-- uresize
+                        (sll (range_idx.value +:. 1) ~by:1)
+                        ~width:range_bram_addr_bits
                 ; sm.set_next Merge_read_start
                 ]
             ] )
         ; ( Merge_final
           , [ (* Write final merged range start to BRAM B *)
               bram_b_write_enable <--. 1
-            ; bram_b_write_addr <-- uresize (sll merged_count.value ~by:1) ~width:range_bram_addr_bits
+            ; bram_b_write_addr
+              <-- uresize (sll merged_count.value ~by:1) ~width:range_bram_addr_bits
             ; bram_b_write_data <-- merge_start.value
             ; (* Accumulate Part 2 *)
-              part2_acc <-- part2_acc.value +: uresize (mux2 (merge_end.value >=+ merge_start.value) (merge_end.value -: merge_start.value +:. 1) (zero data_width)) ~width:result_width
+              part2_acc
+              <-- part2_acc.value
+                  +: uresize
+                       (mux2
+                          (merge_end.value >=+ merge_start.value)
+                          (merge_end.value -: merge_start.value +:. 1)
+                          (zero data_width))
+                       ~width:result_width
             ; sm.set_next Merge_final_end
             ] )
         ; ( Merge_final_end
@@ -486,10 +542,7 @@ let create scope (i : _ I.t) : _ O.t =
             ; ingr_bram_read_addr <--. 0
             ; sm.set_next Check_read_ingr
             ] )
-        ; ( Check_read_ingr
-          , [ (* Read ingredient from BRAM *)
-              sm.set_next Check_wait_ingr
-            ] )
+        ; Check_read_ingr, [ (* Read ingredient from BRAM *) sm.set_next Check_wait_ingr ]
         ; ( Check_wait_ingr
           , [ (* Wait for BRAM latency *)
               (* In this cycle, read_data is valid *)
@@ -508,20 +561,16 @@ let create scope (i : _ I.t) : _ O.t =
             ; sm.set_next Check_read_range_end
             ] )
         ; ( Check_read_range_end
-          , [ (* Receive start, wait for end *)
-              sm.set_next Check_compare
-            ] )
+          , [ (* Receive start, wait for end *) sm.set_next Check_compare ] )
         ; ( Check_compare
           , [ (* Receive end *)
               (* Check if ingredient in [check_start, check_end] *)
               (* check_end is bram_b_read_data.(0) *)
               if_
-                ((current_ingredient.value >=+ check_start.value)
-                &: (current_ingredient.value <=+ bram_b_read_data.(0)))
-                [ (* Matched! *)
-                  ingredient_matched <--. 1
-                ; sm.set_next Check_next
-                ]
+                (current_ingredient.value
+                 >=+ check_start.value
+                 &: (current_ingredient.value <=+ bram_b_read_data.(0)))
+                [ (* Matched! *) ingredient_matched <--. 1; sm.set_next Check_next ]
                 [ (* Not matched in this range, try next *)
                   incr range_idx
                 ; if_
@@ -530,25 +579,31 @@ let create scope (i : _ I.t) : _ O.t =
                       sm.set_next Check_next
                     ]
                     [ (* Verify next range *)
-                      bram_b_read_addr <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
-                    ; bram_b_read_addr_wire <-- uresize (sll (range_idx.value +:. 1) ~by:1) ~width:range_bram_addr_bits
+                      bram_b_read_addr
+                      <-- uresize
+                            (sll (range_idx.value +:. 1) ~by:1)
+                            ~width:range_bram_addr_bits
+                    ; bram_b_read_addr_wire
+                      <-- uresize
+                            (sll (range_idx.value +:. 1) ~by:1)
+                            ~width:range_bram_addr_bits
                     ; sm.set_next Check_read_range_start
                     ]
                 ]
             ] )
         ; ( Check_next
           , [ (* If not matched, increment Part 1 *)
-              if_ (ingredient_matched.value) [ incr part1_acc ] []
+              if_ ingredient_matched.value [ incr part1_acc ] []
             ; incr ingredient_idx
             ; if_
                 (ingredient_idx.value +:. 1 >=+ num_ingredients.value)
                 [ sm.set_next Done ]
-                [ ingr_bram_read_addr <-- uresize (ingredient_idx.value +:. 1) ~width:ingr_bram_addr_bits
+                [ ingr_bram_read_addr
+                  <-- uresize (ingredient_idx.value +:. 1) ~width:ingr_bram_addr_bits
                 ; sm.set_next Check_read_ingr
                 ]
             ] )
-        ; ( Done
-          , [ (* Done *) ] )
+        ; Done, [ (* Done *) ]
         ]
     ];
   { O.ram_read_addr = ram_addr.value

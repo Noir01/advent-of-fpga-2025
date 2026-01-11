@@ -52,7 +52,7 @@ struct
     let tx_out = Variable.wire ~default:vdd () in
     (* Done pulse *)
     let done_out = Variable.wire ~default:gnd () in
-    let at_bit_end = bit_counter.value ==:. (clocks_per_bit - 1) in
+    let at_bit_end = bit_counter.value ==:. clocks_per_bit - 1 in
     compile
       [ sm.switch
           [ ( Idle
@@ -68,9 +68,7 @@ struct
           ; ( Start_bit
             , [ tx_out <-- gnd (* Start bit is low *)
               ; bit_counter <-- bit_counter.value +:. 1
-              ; when_
-                  at_bit_end
-                  [ bit_counter <--. 0; sm.set_next Data_bits ]
+              ; when_ at_bit_end [ bit_counter <--. 0; sm.set_next Data_bits ]
               ] )
           ; ( Data_bits
             , [ (* Output LSB of shift register *)
@@ -90,9 +88,7 @@ struct
           ; ( Stop_bit
             , [ tx_out <-- vdd (* Stop bit is high *)
               ; bit_counter <-- bit_counter.value +:. 1
-              ; when_
-                  at_bit_end
-                  [ done_out <-- vdd; sm.set_next Idle ]
+              ; when_ at_bit_end [ done_out <-- vdd; sm.set_next Idle ]
               ] )
           ]
       ];

@@ -1,5 +1,5 @@
-(** This file was LLM generated, I may try to
-rewrite this towards the end of the challenge. *)
+(** This file was LLM generated, I may try to rewrite this towards the end of the
+    challenge. *)
 
 open! Core
 open! Hardcaml
@@ -22,11 +22,13 @@ let create ?(clocks_per_bit = 8) () =
       add_random_initialization trace_all Random_initializer.(create randomize_all))
   in
   (* Create a fast-UART version of the top module for testing *)
-  let module Fast_uart_rx = Advent_of_fpga_2025.Uart_rx.Make (struct
+  let module Fast_uart_rx =
+    Advent_of_fpga_2025.Uart_rx.Make (struct
       let clocks_per_bit = clocks_per_bit
     end)
   in
-  let module Fast_uart_tx = Advent_of_fpga_2025.Uart_tx.Make (struct
+  let module Fast_uart_tx =
+    Advent_of_fpga_2025.Uart_tx.Make (struct
       let clocks_per_bit = clocks_per_bit
     end)
   in
@@ -40,7 +42,10 @@ let create ?(clocks_per_bit = 8) () =
   i.clear := Bits.gnd;
   Cyclesim.cycle sim;
   (* Use actual clocks_per_bit from config for the default module *)
-  { sim; recv_buffer = Queue.create (); clocks_per_bit = Advent_of_fpga_2025.Config.Config.clocks_per_bit }
+  { sim
+  ; recv_buffer = Queue.create ()
+  ; clocks_per_bit = Advent_of_fpga_2025.Config.Config.clocks_per_bit
+  }
 ;;
 
 (** Cycle the simulation n times, capturing any UART output *)
@@ -56,39 +61,36 @@ let cycle ?(n = 1) { sim; recv_buffer; clocks_per_bit } =
   for _ = 1 to n do
     Cyclesim.cycle sim;
     let tx = Bits.to_bool !(o.tx) in
-    (match !rx_state with
-     | `Idle ->
-       if not tx
-       then (
-         (* Start bit detected *)
-         rx_state := `Start;
-         rx_counter := 0;
-         rx_bit_index := 0;
-         rx_byte := 0)
-     | `Start ->
-       Int.incr rx_counter;
-       if !rx_counter >= clocks_per_bit
-       then (
-         rx_state := `Data;
-         rx_counter := 0)
-     | `Data ->
-       Int.incr rx_counter;
-       if !rx_counter = sample_point
-       then
-         if tx
-         then rx_byte := !rx_byte lor (1 lsl !rx_bit_index);
-       if !rx_counter >= clocks_per_bit
-       then (
-         rx_counter := 0;
-         Int.incr rx_bit_index;
-         if !rx_bit_index >= 8
-         then rx_state := `Stop)
-     | `Stop ->
-       Int.incr rx_counter;
-       if !rx_counter >= clocks_per_bit
-       then (
-         Queue.enqueue recv_buffer (Char.of_int_exn !rx_byte);
-         rx_state := `Idle))
+    match !rx_state with
+    | `Idle ->
+      if not tx
+      then (
+        (* Start bit detected *)
+        rx_state := `Start;
+        rx_counter := 0;
+        rx_bit_index := 0;
+        rx_byte := 0)
+    | `Start ->
+      Int.incr rx_counter;
+      if !rx_counter >= clocks_per_bit
+      then (
+        rx_state := `Data;
+        rx_counter := 0)
+    | `Data ->
+      Int.incr rx_counter;
+      if !rx_counter = sample_point
+      then if tx then rx_byte := !rx_byte lor (1 lsl !rx_bit_index);
+      if !rx_counter >= clocks_per_bit
+      then (
+        rx_counter := 0;
+        Int.incr rx_bit_index;
+        if !rx_bit_index >= 8 then rx_state := `Stop)
+    | `Stop ->
+      Int.incr rx_counter;
+      if !rx_counter >= clocks_per_bit
+      then (
+        Queue.enqueue recv_buffer (Char.of_int_exn !rx_byte);
+        rx_state := `Idle)
   done
 ;;
 
