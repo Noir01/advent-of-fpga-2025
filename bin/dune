@@ -1,6 +1,6 @@
 (executables
  (modes exe)
- (names generate run_day01 run_day02 run_day03 run_day04 run_day05)
+ (names generate run_day01 run_day02 run_day03 run_day04 run_day05 run_day06)
  (libraries
   core.command
   core_unix.command_unix
