@@ -1,5 +1,5 @@
 # SPOILERS!!!
-This writeup assumes that you've already read AND solved day 1. If you haven't you'll probably get spoiled.
+This writeup assumes that you've already read AND solved day 1. If you haven't, you'll probably get spoiled.
 
 ### Why FPGA?
 Since you're already reading this, I presume that you *want* to learn more about FPGAs and more importantly already know a little about them. In case you don't, I'd advise you to read up on them online. [IBM's page](https://www.ibm.com/think/topics/field-programmable-gate-arrays) is nice.
@@ -12,7 +12,7 @@ Now, to restate the problem without the fluff. There's a circular dial with 100 
 
 ### Input Encoding
 
-We can encode each movement encoded as a 16-bit word where the high bit encodes the direction.
+We can encode each movement as a 16-bit word where the high bit encodes the direction.
 
 Encoding logic (`encode_input`):
 ```ocaml
@@ -22,9 +22,7 @@ dir_bit lor dist
 
 ### Solver State Machine
 
-The actual solver (`day01_solver.ml`) implements a 6-state Finite State Machine (FSM). If you don't know what a FSM is (or forgot), here're some good [lecture slides](https://web.stanford.edu/class/cs123/lectures/CS123_lec07_Finite_State_Machine.pdf) from Stanford which I thought were super helpful and concise.
-
-TODO: Make diagram
+The actual solver (`day01_solver.ml`) implements a 6-state Finite State Machine (FSM). If you don't know what a FSM is (or forgot), here are some good [lecture slides](https://web.stanford.edu/class/cs123/lectures/CS123_lec07_Finite_State_Machine.pdf) from Stanford which I thought were super helpful and concise.
 
 Our FSM will have 6 different states:
 
@@ -40,18 +38,18 @@ Our FSM will have 6 different states:
    - Advances `read_addr` to next input
 - **Done**: Asserts `done_` signal, outputs are valid
 
-## Registers
+### Registers
 
 For the uninitiated, you can think of registers as physical 'variables' that can hold values, with a few important distinctions [^1]. The one distinction you really need to know is that register assignments describe what happens on the *next* clock edge, not immediately. We will use 6 registers:
 - `read_addr` (13-bit): This register will be used to traverse the input. My input has 4577 lines, hence the width is 13 bits since ceil(log_2 4577) = 13.
-- `position` (7-bit): This register will store the actual dial position. Again ceil(log_2 99) = 7 hence 7 bits
+- `position` (7-bit): This register will store the actual dial position. Again ceil(log_2 99) = 7, hence 7 bits
 - `direction` (1-bit): convenient register to store direction
 - `tick_counter` (10-bit): register to store how many ticks left in our current input. [^2]
 - `part1_count` (32-bit): register to store final result
 - `part2_count` (32-bit): register to store final result
 
 ### Hardcaml Basics
-Hardcaml is an OCaml library that generates hardware. Your OCaml runs once to produce a circuit, which then gets synthesized onto the FPGA. [^3]
+Hardcaml is an OCaml library that generates hardware descriptions. Your OCaml runs once to produce a circuit, which then gets synthesized onto the FPGA. [^3]
 Quick reference for the operators you'll see:
 
 - `<--` / `<--.` : assign signal / constant to register
@@ -60,7 +58,7 @@ Quick reference for the operators you'll see:
 - `when_ cond [...]` : conditional execution
 - `.value` : read a register's current value
 
-Now, for the one tricky bit for the day, circular logic:
+Now for the one tricky bit for the day, circular logic:
 
 ```ocaml
 let next_pos_left =
